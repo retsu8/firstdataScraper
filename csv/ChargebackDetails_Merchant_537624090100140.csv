@@ -1,8 +1,0 @@
-Chargeback Details: 
-Merchant: 537624090100140
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"01/29/2018","01/19/2018","SD119","VI","460389xxxx8958","1","First chargeback; initiated by the issuer","481","CARDHOLDER DID NOT AUTH OR ENGAGE-FRAUD","** NEW  TODAY **","24022598021980000101019","018 028 40837",,"$38.25"
-"01/29/2018","01/20/2018","SD119","VI","460389xxxx8958","1","First chargeback; initiated by the issuer","481","CARDHOLDER DID NOT AUTH OR ENGAGE-FRAUD","** NEW  TODAY **","24022598021980000101019","018 028 40858",,"$48.98"
-"01/29/2018","01/19/2018","SD119","VI","460389xxxx8958","1","First chargeback; initiated by the issuer","481","CARDHOLDER DID NOT AUTH OR ENGAGE-FRAUD","** NEW  TODAY **","24022598021980000101076","018 028 42632",,"$38.36"
-"01/29/2018","01/16/2018","SD119","VI","460389xxxx8958","1","First chargeback; initiated by the issuer","481","CARDHOLDER DID NOT AUTH OR ENGAGE-FRAUD","** NEW  TODAY **","24022598017980000101098","018 028 43485",,"$24.95"
-"Report Total",,,,,,,,,,,"1st CB Count","4","$150.54"

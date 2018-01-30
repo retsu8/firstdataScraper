@@ -1,13 +1,16 @@
-import time, sys
+import time, sys, os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 
+direct = os.getcwd()
+dwn = os.path.join(direct, 'csv')
+
 profile = webdriver.FirefoxProfile()
 profile.set_preference("browser.download.folderList", 2)
 profile.set_preference("browser.download.manager.showWhenStarting", False)
-profile.set_preference("browser.download.dir", '/home/wjp/Documents/git/firstdataScraper/csv/')
+profile.set_preference("browser.download.dir", dwn)
 profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv")
 
 browser = webdriver.Firefox(firefox_profile=profile)
