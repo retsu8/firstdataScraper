@@ -96,48 +96,32 @@ class Main(object):
         browser.find_element_by_name("uxLogin").click()
 
         #go to chargebacks
-        browser.get('https://www.youraccessone.com/64_rpt_Chargebacks.aspx')
+        browser.get('https://www.youraccessone.com/64_rpt_TransactionSearch.aspx')
 
         #open filter
         browser.find_element_by_xpath("//*[text()='FILTER']").click()
 
         #toggle daily
-        browser.find_element_by_xpath("//*[text()='Monthly']").click()
+        browser.find_element_by_xpath("//*[text()='Daily']").click()
 
         #check all merchants
-        browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxOmahaHierarchies_uxchbAllMerchants").click()
+        browser.find_element_by_id("ctl00_ContentPage_uxHierarchyList_Input").click()
+        browser.find_element_by_xpath("//*[text()='SYS']").click()
+
+        #fill in the field
+        my_sys = browser.find_element_by_name("ctl00$ContentPage$uxEntityValue")
+        my_sys.send_keys('1261')
 
         #submit to apply filters
-        browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxbtnDisplayRunReport").click()
+        browser.find_element_by_id("ctl00_ContentPage_uxSearch").click()
 
-        time.sleep(10)
+        time.sleep(5)
 
-        window_before = browser.window_handles[0]
-        print(browser.title)
-        print(browser.page_source)
-        table_id = browser.find_element_by_xpath("//table[@class='ctl00_ContentPage_uxReportGrid_ctl00']")
-        for row in table_id.find_elements_by_xpath(".//tr"):
-            cell = [item for item in row.find_elements_by_tag_name('td')]
-            print(cell)
-            click_me = "//*[text()='{}']".format(cell.text)
-            browser.find_element_by_xpath(click_me).click()
+        #download transaction
+        browser.find_element_by_xpath("//*[text()='EXPORT']").click()
+        browser.find_element_by_id("ctl00_ContentPage_uxExporter_imgCSV").click()
 
-            #go to new window
-            window_after = browser.window_handles[1]
-            browser.switch_to.window(window_after)
-            print(browser.title)
-            time.sleep(5)
-
-            #download chargeback
-            browser.find_element_by_id("ctl00_ContentPage_uxExportChargebacks_litExport").click()
-            browser.find_element_by_id("ctl00_ContentPage_uxExportChargebacks_imgCSV").click()
-
-            #go back to previus page
-            browser.close();
-            print(browser.window_handles)
-            browser.switch_to.window(browser.window_handles[0])
-
-        #browser.close();
+        browser.close();
 
 if __name__ == '__main__':
     mn = Main()
