@@ -12,11 +12,20 @@ dwn = os.path.join(direct, 'csv')
 
 firstdata = {
     'drivername': 'mysql+pymysql',
-    'host': 'auroramerchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
+    'host': 'merchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
     'port': 3306,
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
-    'database': 'firstdata',
+    'database': 'druporta_tss_data',
+}
+
+card_dict = {
+    'VI':'Visa',
+    'AE':'Amex',
+    'MC':'MasterCard',
+    'DV':'Discover',
+    'EB':'EBT',
+    'DB':'PinDebit'
 }
 
 def firstConn():
@@ -29,7 +38,27 @@ def to_int(x):
     return int(x)
 
 def to_cent(x):
-    return x*100
+    try:
+        y = float(x)
+        return int(y*100)
+    except:
+        y = x.replace('(', '').replace(')', '')
+        y = float(y)
+        y = y - y*2
+        return int(y*100)
+
+def to_type(x):
+    if x in card_dict:
+        return card_dict[x]
+    else:
+        return 'Other'
+
+def to_countrycode(x):
+    x = x.lower()
+    if 'use' in x:
+        return int(840)
+    elif 'kor' in x:
+        return int(82)
 
 def manage_firstdata(method):
     def decorated_method(self, *args, **kwargs):
@@ -52,32 +81,26 @@ class Main(object):
     def parse_csv(self):
         for file in os.listdir("csv"):
             my_file = os.path.join(dwn, file)
-            with open(my_file) as csvfile:
-                readCSV = csv.reader(csvfile, delimiter=',')
-                next(readCSV)
-                for row in readCSV:
-                    my_row = row
-                    break
-                mid = my_row[0].split(':')[1].strip()
-                print(mid)
             if file.endswith(".csv"):
                 print(my_file)
-                my_panda = pd.read_csv(my_file, header=2, index_col='CB Sequence Number', parse_dates=True, infer_datetime_format=True)
-                my_panda = my_panda.drop(my_panda.index[len(my_panda)-1])
-                my_panda['mid'] = mid
+                my_panda = pd.read_csv(my_file, header=1, parse_dates=True, infer_datetime_format=True)
                 #my_panda.reset_index(level=0, inplace=True)
-                my_panda.rename(columns={'Report Date': 'processing-date', 'Trans Date': 'transaction-date', 'Trans Date': 'transaction-date', 'File Source': 'file_source', 'Card Type': 'card-type', 'Cardholder Number': 'card-number', 'CB Type': 'tran-type', 'Reason Text': 'reason-desc', 'Disposition': 'disposition', 'Reference Number': 'reference-number', 'CB Sequence Number': 'ID','CB Reason Code':'record-type', 'Reason Text':'message','CB Amount':'amount','1st CB Amount':'1st_amount'}, inplace=True)
+                del my_panda['Matched']
+                del my_panda['Terminal #']
+                del my_panda['File Source']
+                del my_panda['Keyed']
+                del my_panda['Exp Date']
+                my_panda.rename(columns={'Merchant #':'mid','Merchant Name':'merchant-name','Report Date': 'processing-date', 'Trans Date': 'transaction-date', 'Batch #':'batch-number', 'Trans Time':'tran-time','Trans Code':'tran-type', 'Country Code':'country-code','Card Type':'card-type','Card #':'card-number','Auth #':'auth-code','Trans Amount':'amount'}, inplace=True)
                 my_panda= my_panda.fillna(0)
+                my_panda['card-type'] = my_panda['card-type'].apply(to_type)
+                my_panda['country-code'] = my_panda['country-code'].apply(to_countrycode)
                 my_panda['processing-date'] = pd.to_datetime(my_panda['processing-date']).astype('datetime64[ns]', copy=True)
                 my_panda['transaction-date'] = pd.to_datetime(my_panda['transaction-date']).astype('datetime64[ns]', copy=True)
-                my_panda['tran-type'] = my_panda['tran-type'].astype('int', copy=True).astype('str', copy=True)
-                my_panda['record-type'] = my_panda['record-type'].astype('int', copy=True).astype('str', copy=True)
-                my_panda['1st_amount'] = my_panda['1st_amount'].replace('[\$,]', '', regex=True).astype(float).apply(to_cent).astype(int)
-                my_panda['amount'] = my_panda['amount'].replace('[\$,]', '', regex=True).astype(float).apply(to_cent).astype(int)
-                my_panda.to_sql('chargebacks', self.confir, if_exists='append', index=False)
+                my_panda['amount'] = my_panda['amount'].replace('[\$,]', '', regex=True).apply(to_cent)
+                #my_panda.to_sql('transactions', self.confir, if_exists='append', index=False)
                 print(my_panda)
 
-    def getchargeback(self):
+    def gettransactions(self):
         profile = webdriver.FirefoxProfile()
         profile.set_preference("browser.download.folderList", 2)
         profile.set_preference("browser.download.manager.showWhenStarting", False)
@@ -125,5 +148,5 @@ class Main(object):
 
 if __name__ == '__main__':
     mn = Main()
-    mn.getchargeback()
-    #mn.parse_csv()
+    #mn.gettransactions()
+    mn.parse_csv()
