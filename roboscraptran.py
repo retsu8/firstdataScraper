@@ -20,6 +20,7 @@ firstdata = {
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
     'database': 'druporta_tss_data',
+    'query':{'local_infile':1},
 }
 
 card_dict = {
@@ -53,8 +54,9 @@ def to_int(x):
 
 def to_cent(x):
     getcontext().prec = 6
+    y = x.replace('$', '').replace(',', '')
     try:
-        y = x.replace('(', '').replace(')', '')
+        y = y.replace('(', '').replace(')', '')
     except:
         """Justing holding this up"""
     y = Decimal(y)
@@ -119,8 +121,8 @@ def callConnection(conn, sql):
         inst = conn.execute(sql)
         trans.commit()  # transaction is not committed yet
     except:
-        log.warn(sql)
-        log.warn(sys.exc_info())
+        print(sql)
+        print(sys.exc_info())
         inst = sys.exc_info()
         trans.rollback()  # this rolls back the transaction unconditionally
         raise
@@ -133,7 +135,7 @@ class Main(object):
         """Parse the csv pulled from the transactions table"""
         for file in os.listdir("csv"):
             my_file = os.path.join(dwn, file)
-            if file.endswith(".csv"):
+            if file.endswith(".csv") and '_panda' not in my_file:
                 print(my_file)
                 my_panda = pd.read_csv(my_file, header=1, parse_dates=[4,5], infer_datetime_format=True, encoding='utf-8')
                 #my_panda.reset_index(level=0, inplace=True)
@@ -146,38 +148,55 @@ class Main(object):
                 my_panda['card-type'] = my_panda['card-type'].apply(to_type)
                 my_panda['country-code'] = my_panda['country-code'].apply(to_countrycode)
                 my_panda['tran-type'] = my_panda['tran-type'].apply(make_type_nice)
-                my_panda['processing-date'] = pd.to_datetime(my_panda['processing-date']).astype('datetime64[ns]', copy=True)
-                my_panda['transaction-date'] = pd.to_datetime(my_panda['transaction-date']).astype('datetime64[ns]', copy=True)
+                my_panda['processing-date'] = pd.to_datetime(my_panda['processing-date'], format="%m/%d/%Y").astype('datetime64[ns]', copy=True)
+                my_panda['transaction-date'] = pd.to_datetime(my_panda['transaction-date'], format='%m/%d/%Y').astype('datetime64[ns]', copy=True)
                 my_panda['batch-date'] = pd.to_datetime(my_panda['transaction-date'])
                 my_panda['tran-identifier'] = my_panda.apply(build_tran_id, axis=1)
                 del my_panda['File Source']
-                my_panda['amount'] = my_panda['amount'].replace('[\$,]', '', regex=True).apply(to_cent)
-                my_panda.sort('processing-date', inplace=True)
+                my_panda['amount'] = my_panda['amount'].apply(to_cent)
+                my_panda.sort_values(by=['processing-date'], inplace=True)
 
                 my_panda.to_csv(str(my_file)+'_panda.csv')
                 headers = '`,`'.join(list(my_panda))
-                sql = "LOAD DATA LOCAL INFILE '{}' REPLACE INTO TABLE druporta_tss_data.transactions FIELDS TERMINATED BY ',' lines terminated by '\n' IGNORE 1 LINES (`{}`);".format(str(my_file)+'_panda.csv', headers)
-                if not callConnection(self.conn, sql):
-                    try:
-                        my_panda.to_sql('transactions', self.confir, if_exists='append', index=False, chunksize=100)
-                    except:
-                        for j, item in my_panda.iterrows():
+                #sql = "LOAD DATA LOCAL INFILE '{}' REPLACE INTO TABLE druporta_tss_data.transactions FIELDS TERMINATED BY ',' lines terminated by '\n' IGNORE 1 LINES (`{}`);".format(str(my_file)+'_panda.csv', headers)
+                #if not callConnection(self.confir, sql):
+                try:
+                    my_panda.to_sql('transactions', self.confir, if_exists='append', index=False, chunksize=1000)
+                except:
+                    m = 0
+                    n = 100
+                    while n <= len(panda.size[1])
+                        update_list = []
+                        for j, item in my_panda[m:n].iterrows():
                             """Place in the update script"""
                             update = '","'.join(str(k) for k in item.values.tolist())
-                            del item['tran-identifier']
-                            str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
+                            update_list.append('({})'.format(update))
+                        print(update_list)
+                        insert_me = 'insert into transactions(`{}`) VALUES{}'.format(headers, ','.join(update_list))
+                        print(insert_me)
+                        #if not callConnection(self.confir, insert_me):
+                        #    for j, item in my_panda[m:n].iterrows():
+                        #        """Place in the update script"""
+                        #        update = '","'.join(str(k) for k in item.values.tolist())
+                        #        del item['tran-identifier']
+                        #        str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
+                        #        insert_me = 'insert into transactions(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
+                        #        print(insert_me)
+                        #        if not callConnection(self.confir, insert_me):
+                        #            break
 
-                            insert_me = 'insert into transactions(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
+                        if n == panda.size[1]:
+                            break
+                        elif n+100 > panda.size[1]:
+                            n = panda.siz[1]
+                        else:
+                            n += 100
 
-                            #print(insert_me)
-
-                            if not callConnection(self.confir, insert_me):
-                                break
-                else:
-                    print('The load doata localfile executed properly and is now ready to use')
+                #else:
+                #    print('The load doata localfile executed properly and is now ready to use')
 
                 print(my_panda)
-            shutil.remove(str(my_file)+'_panda.csv')
+            os.remove(str(my_file)+'_panda.csv')
             shutil.move(my_file, 'done/'+str(my_date)+'.csv')
 
     def gettransactions(self):
@@ -219,15 +238,19 @@ class Main(object):
         #submit to apply filters
         browser.find_element_by_id("ctl00_ContentPage_uxSearch").click()
 
-        time.sleep(5)
+        time.sleep(10)
 
         #download transaction
         browser.find_element_by_xpath("//*[text()='EXPORT']").click()
-        browser.find_element_by_id("ctl00_ContentPage_uxExporter_imgCSV").click()
+        browser.find_element_by_xpath("//*[text()='CSV']").click()
 
         browser.close();
 
 if __name__ == '__main__':
+    arv = sys.argv
+    print(arv)
     mn = Main()
-    #mn.gettransactions()
-    mn.parse_csv()
+    if '-t' in arv:
+        mn.gettransactions()
+    if '-p' in arv:
+        mn.parse_csv()
