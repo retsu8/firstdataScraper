@@ -156,47 +156,44 @@ class Main(object):
                 my_panda['amount'] = my_panda['amount'].apply(to_cent)
                 my_panda.sort_values(by=['processing-date'], inplace=True)
 
-                my_panda.to_csv(str(my_file)+'_panda.csv')
                 headers = '`,`'.join(list(my_panda))
-                #sql = "LOAD DATA LOCAL INFILE '{}' REPLACE INTO TABLE druporta_tss_data.transactions FIELDS TERMINATED BY ',' lines terminated by '\n' IGNORE 1 LINES (`{}`);".format(str(my_file)+'_panda.csv', headers)
-                #if not callConnection(self.confir, sql):
                 try:
                     my_panda.to_sql('transactions', self.confir, if_exists='append', index=False, chunksize=1000)
                 except:
                     m = 0
                     n = 100
-                    while n <= len(panda.size[1])
+                    print(my_panda.shape)
+                    while n <= int(my_panda.shape[0]):
                         update_list = []
                         for j, item in my_panda[m:n].iterrows():
                             """Place in the update script"""
                             update = '","'.join(str(k) for k in item.values.tolist())
-                            update_list.append('({})'.format(update))
-                        print(update_list)
+                            update_list.append('("{}")'.format(update))
+                        #print(update_list)
                         insert_me = 'insert into transactions(`{}`) VALUES{}'.format(headers, ','.join(update_list))
                         print(insert_me)
-                        #if not callConnection(self.confir, insert_me):
-                        #    for j, item in my_panda[m:n].iterrows():
-                        #        """Place in the update script"""
-                        #        update = '","'.join(str(k) for k in item.values.tolist())
-                        #        del item['tran-identifier']
-                        #        str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
-                        #        insert_me = 'insert into transactions(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
-                        #        print(insert_me)
-                        #        if not callConnection(self.confir, insert_me):
-                        #            break
+                        if not callConnection(self.confir, insert_me):
+                            for j, item in my_panda[m:n].iterrows():
+                                """Place in the update script"""
+                                update = '","'.join(str(k) for k in item.values.tolist())
+                                del item['tran-identifier']
+                                str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
+                                insert_me = 'insert into transactions(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
+                                print(insert_me)
+                                if not callConnection(self.confir, insert_me):
+                                    break
 
-                        if n == panda.size[1]:
+                        if n == my_panda.shape[0]:
                             break
-                        elif n+100 > panda.size[1]:
-                            n = panda.siz[1]
+                        elif n+100 > my_panda.shape[0]:
+                            n = my_panda.shape[0]
+                            m += 100
                         else:
                             n += 100
-
-                #else:
-                #    print('The load doata localfile executed properly and is now ready to use')
+                            m += 100
 
                 print(my_panda)
-            os.remove(str(my_file)+'_panda.csv')
+            #os.remove(str(my_file)+'_panda.csv')
             shutil.move(my_file, 'done/'+str(my_date)+'.csv')
 
     def gettransactions(self):
@@ -242,7 +239,7 @@ class Main(object):
 
         #download transaction
         browser.find_element_by_xpath("//*[text()='EXPORT']").click()
-        browser.find_element_by_xpath("//*[text()='CSV']").click()
+        browser.find_element_by_id("ctl00_ContentPage_uxExporter_imgCSV").click()
 
         browser.close();
 
@@ -250,7 +247,7 @@ if __name__ == '__main__':
     arv = sys.argv
     print(arv)
     mn = Main()
-    if '-t' in arv:
+    if '-r' in arv:
         mn.gettransactions()
     if '-p' in arv:
         mn.parse_csv()

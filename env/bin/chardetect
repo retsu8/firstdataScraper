@@ -1,4 +1,4 @@
-#!/home/wjp/Documents/git/firstdataScraper/env/bin/python3
+#!/home/wjp/Documents/git/firstdataScraper/env/bin/python3.6
 
 # -*- coding: utf-8 -*-
 import re
