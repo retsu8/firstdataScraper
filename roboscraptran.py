@@ -19,7 +19,7 @@ firstdata = {
     'port': 3306,
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
-    'database': 'druporta_tss_data',
+    'database': 'firstdata',
     'query':{'local_infile':1},
 }
 
@@ -81,7 +81,7 @@ def make_type_nice(x):
         return str('Sale')
 
 def build_tran_id(my_panda):
-    return str(my_panda['reference-number']) + " "+ str(my_panda['File Source']) +' '+ str(generate(10, 15))
+    return str(my_panda['reference-number']) + " "+ str(my_panda['File Source']) +' '+ str(generate(10, 100))
 
 def callConnection(conn, sql):
     # open a transaction - this runs in the context of method_a's transaction
@@ -162,7 +162,9 @@ class Main(object):
                 except:
                     m = 0
                     n = 100
-                    print(my_panda.shape)
+                    if n > int(my_panda.shape[0]):
+                        n = int(my_panda.shape[0])
+                    #print(my_panda.shape)
                     while n <= int(my_panda.shape[0]):
                         update_list = []
                         for j, item in my_panda[m:n].iterrows():
@@ -171,7 +173,7 @@ class Main(object):
                             update_list.append('("{}")'.format(update))
                         #print(update_list)
                         insert_me = 'insert into transactions(`{}`) VALUES{}'.format(headers, ','.join(update_list))
-                        print(insert_me)
+                        #print(insert_me)
                         if not callConnection(self.confir, insert_me):
                             for j, item in my_panda[m:n].iterrows():
                                 """Place in the update script"""
@@ -179,8 +181,9 @@ class Main(object):
                                 del item['tran-identifier']
                                 str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
                                 insert_me = 'insert into transactions(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
-                                print(insert_me)
+                                #print(insert_me)
                                 if not callConnection(self.confir, insert_me):
+                                    print("Something went wronge")
                                     break
 
                         if n == my_panda.shape[0]:
@@ -251,3 +254,5 @@ if __name__ == '__main__':
         mn.gettransactions()
     if '-p' in arv:
         mn.parse_csv()
+    else:
+        print("-r 'get trans' -p 'parse trans'")
