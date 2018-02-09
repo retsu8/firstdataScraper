@@ -1,0 +1,8 @@
+Chargeback Details: 
+Merchant: 537624010303097
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"12/09/2016","10/19/2016","SD119","VI","414720xxxx6804","1","First chargeback; initiated by the issuer","482","CH CANCELLED 062316","PM 537624010303097","24022596294080080946294","016 341 40246","$307.72",
+"12/08/2016","10/19/2016","SD119","VI","414720xxxx6804","1","First chargeback; initiated by the issuer","482","NON-RCPT OF SERVICES","** NEW  TODAY **","24022596294080080946294","016 341 40246",,"$307.72"
+"10/24/2016","10/13/2016","SD119","VI","426684xxxx9904","1","First chargeback; initiated by the issuer","485","NOT AS DESCRIBED","PM 537624010303097","24022596288080080886944","016 294 42853","$332.25",
+"10/22/2016","10/13/2016","SD119","VI","426684xxxx9904","1","First chargeback; initiated by the issuer","485","ALTERED FROM 19.99 AMT TO 39.98 AMT","** NEW  TODAY **","24022596288080080886944","016 294 42853",,"$332.25"
+"Report Total",,,,,,,,,,,"1st CB Count","2","$639.97"

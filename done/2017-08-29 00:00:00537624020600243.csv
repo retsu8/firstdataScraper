@@ -1,0 +1,6 @@
+Chargeback Details: 
+Merchant: 537624020600243
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"08/29/2017","08/08/2017","SD119","VI","415977xxxx0133","1","First chargeback; initiated by the issuer","483","SERVICE CANCELLED 081817","PM 537624020600243","24022597221980000112503","017 239 40350","$140.00",
+"08/28/2017","08/08/2017","SD119","VI","415977xxxx0133","1","First chargeback; initiated by the issuer","483","SERVICES NOT RENDERED 071317","** NEW  TODAY **","24022597221980000112503","017 239 40350",,"$140.00"
+"Report Total",,,,,,,,,,,"1st CB Count","1","$140.00"

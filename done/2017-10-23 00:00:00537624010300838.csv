@@ -1,0 +1,15 @@
+Chargeback Details: 
+Merchant: 537624010300838
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"10/23/2017","08/12/2017","SD119","MC","521333xxxx6618","1","First chargeback; initiated by the issuer","4859","CANCELLED SERVICES","** NEW  TODAY **","85376247225980000029724","0317294502108",,"$40.95"
+"08/31/2017","07/27/2017","SD119","MC","519123xxxx5407","1","First chargeback; initiated by the issuer","4853","ADDENDUM","** NEW  TODAY **","85376247209980000029708","0317242501875",,"$150.78"
+"08/22/2017","07/30/2017","SD119","VI","470133xxxx2850","1","First chargeback; initiated by the issuer","481","AUTH DECLINED 080617","PM 537624010300838","24022597211980000029758","017 230 40395","$170.00",
+"08/21/2017","07/30/2017","SD119","VI","470133xxxx2850","1","First chargeback; initiated by the issuer","481","","","24022597211980000029758","017 230 40395","$170.00",
+"08/19/2017","07/30/2017","SD119","VI","470133xxxx2850","1","First chargeback; initiated by the issuer","481","CVV2 NO MATCH","** NEW  TODAY **","24022597211980000029758","017 230 40395",,"$170.00"
+"06/04/2017","03/29/2017","SD206","DV","601100xxxx2410","","","4811","","","66206017088980000029760","","$85.53",
+"04/25/2017","02/24/2017","SD119","MC","512107xxxx6586","1","First chargeback; initiated by the issuer","4837","UNAUTH TRANS","** NEW  TODAY **","85376247057980000029750","0317114500691",,"$81.30"
+"03/25/2017","03/19/2017","SD119","VI","480209xxxx5640","1","First chargeback; initiated by the issuer","481","TRAN AMT 16.90 NOT 24.14","PM 537624010300838","24022597078980000029727","017 082 41198","$106.93",
+"03/24/2017","03/19/2017","SD119","VI","480209xxxx5640","1","First chargeback; initiated by the issuer","481","EMV CARD, NON EMV DEVICE","** NEW  TODAY **","24022597078980000029727","017 082 41198",,"$106.93"
+"08/25/2016","08/06/2016","SD119","VI","470134xxxx9818","1","First chargeback; initiated by the issuer","430","TRAN DATE 081216 REF 24688086227980000129609","PM 537624010300838","24022596220980000029791","016 236 40235","$100.00",
+"08/24/2016","08/06/2016","SD119","VI","470134xxxx9818","1","First chargeback; initiated by the issuer","430","EMV CARD, NON EMV DEVICE","** NEW  TODAY **","24022596220980000029791","016 236 40235",,"$100.00"
+"Report Total",,,,,,,,,,,"1st CB Count","6","$649.96"

@@ -1,0 +1,6 @@
+Chargeback Details: 
+Merchant: 537624010300101
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"08/09/2016","06/20/2016","SD119","MC","517805xxxx3712","1","First chargeback; initiated by the issuer","4853","","PM 537624010300101","85376246173980000002295","0316219502683","$1,208.77",
+"08/08/2016","06/20/2016","SD119","MC","517805xxxx3712","1","First chargeback; initiated by the issuer","4853","","** NEW  TODAY **","85376246173980000002295","0316219502683",,"$1,208.77"
+"Report Total",,,,,,,,,,,"1st CB Count","1","$1,208.77"

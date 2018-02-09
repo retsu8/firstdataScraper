@@ -1,0 +1,11 @@
+Chargeback Details: 
+Merchant: 537624050200427
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"02/11/2017","12/06/2016","SD119","VI","415417xxxx6384","1","First chargeback; initiated by the issuer","441","AUTHENTICATION DENIAL","PM 537624050200427","24022596342980000057654","017 040 40504","$755.00",
+"02/10/2017","12/06/2016","SD119","VI","415417xxxx6384","1","First chargeback; initiated by the issuer","441","AUTHENTICATION DENIAL","** NEW  TODAY **","24022596342980000057654","017 040 40504",,"$755.00"
+"01/17/2017","08/08/2016","SD206","DV","601100xxxx7872","","","4801","","","66206016222980000057640","","$200.00",
+"09/03/2016","08/22/2016","SD119","VI","412174xxxx5438","1","First chargeback; initiated by the issuer","483","UNAUTHORIZED","PM 537624050200427","24022596236980000057653","016 245 40525","$1,000.00",
+"09/02/2016","08/22/2016","SD119","VI","412174xxxx5438","1","First chargeback; initiated by the issuer","483","","** NEW  TODAY **","24022596236980000057653","016 245 40525",,"$1,000.00"
+"08/11/2016","07/12/2016","SD119","VI","426684xxxx0097","1","First chargeback; initiated by the issuer","485","SERVICES NOT RENDERED 060716","PM 537624050200427","24022596195980000057611","016 222 40210","$1,975.00",
+"08/10/2016","07/12/2016","SD119","VI","426684xxxx0097","1","First chargeback; initiated by the issuer","485","EMV CARD, NON EMV DEVICE","** NEW  TODAY **","24022596195980000057611","016 222 40210",,"$1,975.00"
+"Report Total",,,,,,,,,,,"1st CB Count","3","$3,730.00"

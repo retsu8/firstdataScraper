@@ -1,0 +1,16 @@
+Chargeback Details: 
+Merchant: 537624040100018
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"11/14/2017","11/07/2017","SD119","VI","483316xxxx8080","1","First chargeback; initiated by the issuer","483","AUTHENTICATION DENIAL","PM 537624040100018","24022597311500059583056","017 315 43060","$350.00",
+"11/13/2017","11/07/2017","SD119","VI","483316xxxx8080","1","First chargeback; initiated by the issuer","483","AUTHENTICATION DENIAL","** NEW  TODAY **","24022597311500059583056","017 315 43060",,"$350.00"
+"03/31/2017","02/07/2017","SD119","VI","436618xxxx1362","1","First chargeback; initiated by the issuer","483","SERVICES NOT RENDERED 020616","PM 537624040100018","24022597038500059035448","017 088 41422","$175.00",
+"03/30/2017","02/07/2017","SD119","VI","436618xxxx1362","1","First chargeback; initiated by the issuer","483","SERVICES NOT RENDERED 020616","** NEW  TODAY **","24022597038500059035448","017 088 41422",,"$175.00"
+"02/03/2017","12/23/2016","SD119","VI","434769xxxx8988","1","First chargeback; initiated by the issuer","483","MERCH NOT RECEIVED 011017","PM 537624040100018","24022596358500059064525","017 032 43652","$760.00",
+"02/02/2017","12/23/2016","SD119","VI","434769xxxx8988","1","First chargeback; initiated by the issuer","483","SERVICE CANCELLED 012017","** NEW  TODAY **","24022596358500059064525","017 032 43652",,"$760.00"
+"09/24/2016","08/31/2016","SD119","VI","425581xxxx7308","1","First chargeback; initiated by the issuer","485","SERVICE CANCELLED 082316","PM 537624040100018","24022596244500059552071","016 266 42186","$410.00",
+"09/24/2016","08/31/2016","SD119","VI","425581xxxx7308","1","First chargeback; initiated by the issuer","485","CREDIT NOT PROCESSED","PM 537624040100018","24022596244500059552022","016 266 42755","$410.00",
+"09/23/2016","08/31/2016","SD119","VI","425581xxxx7308","1","First chargeback; initiated by the issuer","485","SERVICE CANCELLED 082316","** NEW  TODAY **","24022596244500059552071","016 266 42186",,"$410.00"
+"09/23/2016","08/31/2016","SD119","VI","425581xxxx7308","1","First chargeback; initiated by the issuer","485","CREDIT NOT PROCESSED","** NEW  TODAY **","24022596244500059552022","016 266 42755",,"$410.00"
+"08/25/2016","08/15/2016","SD119","MC","517805xxxx2866","1","First chargeback; initiated by the issuer","4837","","PM 537624040100018","85376246230500059308665","0316236502915","$170.00",
+"08/24/2016","08/15/2016","SD119","MC","517805xxxx2866","1","First chargeback; initiated by the issuer","4837","","** NEW  TODAY **","85376246230500059308665","0316236502915",,"$170.00"
+"Report Total",,,,,,,,,,,"1st CB Count","6","$2,275.00"

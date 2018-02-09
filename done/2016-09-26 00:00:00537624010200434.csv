@@ -1,0 +1,7 @@
+Chargeback Details: 
+Merchant: 537624010200434
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"09/26/2016","08/05/2016","SD119","MC","546638xxxx1376","1","First chargeback; initiated by the issuer","4853","CH DISPUTE-DEFECTIVE/NOT AS DESCRIBE","** NEW  TODAY **","85376246220980000022197","0316268502288",,"$89.10"
+"09/26/2016","07/16/2016","SD119","MC","546638xxxx1376","1","First chargeback; initiated by the issuer","4853","CH DISPUTE-DEFECTIVE/NOT AS DESCRIBE","** NEW  TODAY **","85376246199980000022194","0316268502289",,"$89.10"
+"08/26/2016","08/13/2016","SD119","MC","542418xxxx8261","1","First chargeback; initiated by the issuer","4837","FRAUDULENT TRANSACTION-NO IMPRINT","** NEW  TODAY **","85376246227980000022190","0316238500767",,"$256.50"
+"Report Total",,,,,,,,,,,"1st CB Count","3","$434.70"

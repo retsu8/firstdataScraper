@@ -1,0 +1,18 @@
+Chargeback Details: 
+Merchant: 537624020600474
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"09/22/2017","06/04/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","UNAUTHORIZED","PM 537624020600474","24022597158980000121014","017 263 40160","$44.00",
+"09/22/2017","07/11/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","CH CANCELLED 053017","PM 537624020600474","24022597193980000121011","017 263 40330","$44.00",
+"09/22/2017","09/02/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","CH CANCELLED 053017","PM 537624020600474","24022597246980000121067","017 263 42683","$44.00",
+"09/22/2017","09/10/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","CH CANCELLED 053017","PM 537624020600474","24022597254980000121009","017 263 42807","$44.00",
+"09/21/2017","06/04/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","UNAUTHORIZED","** NEW  TODAY **","24022597158980000121014","017 263 40160",,"$44.00"
+"09/21/2017","07/11/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","CH CANCELLED 053017","** NEW  TODAY **","24022597193980000121011","017 263 40330",,"$44.00"
+"09/21/2017","09/02/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","CH CANCELLED 053017","** NEW  TODAY **","24022597246980000121067","017 263 42683",,"$44.00"
+"09/21/2017","09/10/2017","SD119","VI","440066xxxx7794","1","First chargeback; initiated by the issuer","441","CH CANCELLED 053017","** NEW  TODAY **","24022597254980000121009","017 263 42807",,"$44.00"
+"08/04/2017","06/04/2017","SD119","VI","417903xxxx8204","1","First chargeback; initiated by the issuer","483","24688087211030031256272","PM 537624020600474","24022597158980000121006","017 214 40245","($84.00)",
+"08/03/2017","06/04/2017","SD119","VI","417903xxxx8204","1","First chargeback; initiated by the issuer","483","SERVICE CANCELLED 061517","** NEW  TODAY **","24022597158980000121006","017 214 40245",,"($84.00)"
+"06/26/2017","06/04/2017","SD119","VI","417903xxxx8204","1","First chargeback; initiated by the issuer","483","NOT AS DESCRIBED","PM 537624020600474","24022597158980000121006","017 174 40266","$84.00",
+"06/24/2017","06/04/2017","SD119","VI","417903xxxx8204","1","First chargeback; initiated by the issuer","483","UNAUTH MOTO ACCT CLOSED","** NEW  TODAY **","24022597158980000121006","017 174 40266",,"$84.00"
+"09/24/2016","09/15/2016","SD119","VI","414720xxxx1199","1","First chargeback; initiated by the issuer","441","SERVICES NOT RENDERED 080116","PM 537624020600474","24022596260980000121078","016 266 40674","$44.00",
+"09/23/2016","09/15/2016","SD119","VI","414720xxxx1199","1","First chargeback; initiated by the issuer","441","SERVICES NOT RENDERED 080116","** NEW  TODAY **","24022596260980000121078","016 266 40674",,"$44.00"
+"Report Total",,,,,,,,,,,"1st CB Count","7","$220.00"

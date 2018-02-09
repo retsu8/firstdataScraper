@@ -1,0 +1,6 @@
+Chargeback Details: 
+Merchant: 537624010302818
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"02/28/2017","02/03/2017","SD119","VI","446542xxxx0894","1","First chargeback; initiated by the issuer","481","MERCH NOT RECEIVED 021817","PM 537624010302818","24022597036980000129809","017 057 40237","$250.00",
+"02/27/2017","02/03/2017","SD119","VI","446542xxxx0894","1","First chargeback; initiated by the issuer","481","MERCH NOT RECEIVED 021817","** NEW  TODAY **","24022597036980000129809","017 057 40237",,"$250.00"
+"Report Total",,,,,,,,,,,"1st CB Count","1","$250.00"

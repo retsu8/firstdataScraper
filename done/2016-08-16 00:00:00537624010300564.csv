@@ -1,0 +1,6 @@
+Chargeback Details: 
+Merchant: 537624010300564
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"08/16/2016","06/02/2016","SD119","VI","430572xxxx1679","1","First chargeback; initiated by the issuer","471","EMV CARD, NON EMV DEVICE","PM 537624010300564","24022596155980000022282","016 226 42500","$95.91",
+"08/15/2016","06/02/2016","SD119","VI","430572xxxx1679","1","First chargeback; initiated by the issuer","471","MERCHANDISE CANCELLED 071116","** NEW  TODAY **","24022596155980000022282","016 226 42500",,"$95.91"
+"Report Total",,,,,,,,,,,"1st CB Count","1","$95.91"

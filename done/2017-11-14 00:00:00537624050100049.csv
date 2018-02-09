@@ -1,0 +1,14 @@
+Chargeback Details: 
+Merchant: 537624050100049
+Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
+"11/14/2017","08/22/2017","SD119","VI","483312xxxx2970","1","First chargeback; initiated by the issuer","483","AUTHENTICATION DENIAL","PM 537624050100049","24022597235980000006956","017 316 40068","$250.00",
+"11/13/2017","08/22/2017","SD119","VI","483312xxxx2970","1","First chargeback; initiated by the issuer","483","AUTHENTICATION DENIAL","** NEW  TODAY **","24022597235980000006956","017 316 40068",,"$250.00"
+"09/29/2017","08/21/2017","SD119","VI","441297xxxx4962","1","First chargeback; initiated by the issuer","483","FRAUDULENT TRANSACTION","PM 537624050100049","24022597233980000006958","017 270 40355","$250.00",
+"09/28/2017","08/21/2017","SD119","VI","441297xxxx4962","1","First chargeback; initiated by the issuer","483","","** NEW  TODAY **","24022597233980000006958","017 270 40355",,"$250.00"
+"08/31/2017","08/21/2017","SD119","MC","542418xxxx1439","1","First chargeback; initiated by the issuer","4863","GOOD FAITH EFFORT MADE","PM 537624050100049","85376247233980000006946","0317241500996","$250.00",
+"08/30/2017","08/21/2017","SD119","MC","542418xxxx1439","1","First chargeback; initiated by the issuer","4863","GOOD FAITH EFFORT MADE","** NEW  TODAY **","85376247233980000006946","0317241500996",,"$250.00"
+"10/24/2016","10/10/2016","SD119","VI","456331xxxx3668","1","First chargeback; initiated by the issuer","453","SERVICE CANCELLED 101616","PM 537624050100049","24022596286980000006923","016 295 40282","$115.00",
+"10/22/2016","10/10/2016","SD119","VI","456331xxxx3668","1","First chargeback; initiated by the issuer","453","SERVICE CANCELLED 101616","** NEW  TODAY **","24022596286980000006923","016 295 40282",,"$115.00"
+"09/17/2016","09/07/2016","SD119","VI","438857xxxx0715","1","First chargeback; initiated by the issuer","453","UNAUTHORIZED","PM 537624050100049","24022596252980000006998","016 259 40267","$230.00",
+"09/16/2016","09/07/2016","SD119","VI","438857xxxx0715","1","First chargeback; initiated by the issuer","453","UNAUTHORIZED","** NEW  TODAY **","24022596252980000006998","016 259 40267",,"$230.00"
+"Report Total",,,,,,,,,,,"1st CB Count","5","$1,095.00"

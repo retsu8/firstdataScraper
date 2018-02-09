@@ -1,4 +1,4 @@
-import time, sys, os, csv, shutil, datetime, string
+import time, sys, os, csv, shutil, datetime, string, requests
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -230,6 +230,7 @@ class Main(object):
 
         #check all merchants
         browser.find_element_by_id("ctl00_ContentPage_uxHierarchyList_Input").click()
+        time.sleep(2)
         browser.find_element_by_xpath("//*[text()='SYS']").click()
 
         #fill in the field
@@ -242,9 +243,11 @@ class Main(object):
         time.sleep(10)
 
         #download transaction
-        browser.find_element_by_xpath("//*[text()='EXPORT']").click()
-        browser.find_element_by_id("//*[text()='CSV']").click()
+        element_to_hover_over = browser.find_element_by_xpath("//*[text()='EXPORT']")
+        hover = ActionChains(browser).move_to_element(element_to_hover_over)
+        hover.perform()
 
+        browser.find_element_by_xpath("//*[text()='CSV']").click()
         time.sleep(5)
 
         browser.close();
