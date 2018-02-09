@@ -1,0 +1,640 @@
+page 1
+frontline processing corporation
+3701 trakker tr 1f
+bozeman, mt 59718
+your card processing statement
+020017/000001/740997/stmt/20017/0000/115428 000 01 000000
+dr. chad swanson
+2505 catron st
+bozeman mt  59718-7993
+page 1 of  5
+statement period
+merchant number
+customer service
+this is not a bill
+03/01/17 - 03/31/17
+5376 2401 0100063
+1-866-651-3068
+summary an overview of account activity for the statement period.
+page
+page
+page
+page
+4
+4
+4
+4
+amounts submitted
+third party transactions
+adjustments/chargebacks
+fees charged
+total amount funded to your bank
+see page 2 for key definition of terms
+$24,857.10
+0.00
+0.00
+-$561.38
+$24,295.72
+(amount submitted - third party) + adjustments + chargebacks + fees charged = amount funded
+important information about your account
+3701 trakker tr 1f, bozeman, mt 59718
+nnnnnn 01 05 020017 115428r
+page 2
+page 2 of 5
+key card processing terms in plain language
+total amount you submitted  - the total dollar amount of
+card transactions submitted and processed during the
+statement period.
+third-party transactions  - these are transactions that are
+passed directly to third party service providers for processing
+and/or funding.
+chargebacks - those transactions that are challenged or
+disputed by a cardholder or card-issuing bank. a chargeback
+equals the transaction amount that is disputed by the cardholder
+or card-issuing bank.
+adjustments  - the amounts credited to, or deducted from, your
+account to resolve processing and billing discrepancies.
+interchange charges - these are the variable fees charged
+by card organizations for processing transactions. factors that
+affect interchange charges include card type, information
+contained in the transaction, and how/when the transaction
+was processed.
+total amount funded to your bank  - the total dollar
+amount of credited/paid to your account during the statement
+period.
+merchant number  - the unique account number assigned to
+every merchant and merchant location. you’ll find it at the top of
+your statement.
+fees charged - total processing fees calculated and charged
+to your bank account for the statement month.
+3701 trakker tr 1f, bozeman, mt 59718
+nnnnnn 02 05 020017 115429r
+page 3
+your card processing statement
+merchant number
+customer service
+5376 2401 0100063
+1-866-651-3068
+page 3 of 5
+statement period
+03/01/17 - 03/31/17
+summary by card type
+(total sales you submitted - refunds = total amount you submitted)
+total gross sales you submitted
+refunds
+total amount you submitted
+card type
+mastercard
+amexct043
+visa
+visa debit
+discover acq
+total
+average
+ticket
+$103.11
+$99.17
+$103.56
+$99.92
+$110.00
+items
+45
+6
+90
+102
+1
+244
+amount
+items
+amount
+$4,640.00
+$595.00
+$9,320.00
+$10,192.10
+$110.00
+$24,857.10
+0
+0
+0
+0
+0
+0
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+amount
+$4,640.00
+$595.00
+$9,320.00
+$10,192.10
+$110.00
+$24,857.10
+amounts funded by batch
+(amount submitted - third party) + adjustments + chargebacks + fees charged = amount funded
+date
+submitted
+03/01/17
+03/02/17
+03/03/17
+03/05/17
+03/05/17
+03/07/17
+03/08/17
+03/09/17
+03/10/17
+03/12/17
+03/12/17
+03/14/17
+03/15/17
+03/17/17
+03/19/17
+03/19/17
+03/21/17
+total
+batch
+number
+98006041001
+98006141002
+98006241001
+98006441001
+98006441002
+98006641002
+98006741001
+98006841001
+98006941002
+98007141002
+98007141003
+98007341002
+98007441001
+98007641001
+98007841001
+98007841002
+98008041001
+month end charge
+submitted
+amount
+third party
+transactions
+adjustments/
+chargebacks
+fees
+charged
+$1,172.00
+$1,360.00
+$1,520.00
+$845.00
+$1,110.00
+$1,070.00
+$2,130.00
+$1,235.00
+$2,125.00
+$1,905.00
+$860.00
+$1,295.00
+$1,025.00
+$3,485.10
+$735.00
+$1,835.00
+$1,150.00
+0.00
+$24,857.10
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+0.00
+-$561.38
+-$561.38
+funded
+amount
+$1,172.00
+$1,360.00
+$1,520.00
+$845.00
+$1,110.00
+$1,070.00
+$2,130.00
+$1,235.00
+$2,125.00
+$1,905.00
+$860.00
+$1,295.00
+$1,025.00
+$3,485.10
+$735.00
+$1,835.00
+$1,150.00
+-$561.38
+$24,295.72
+3701 trakker tr 1f, bozeman, mt 59718
+nnnnnn 03 05 020017 115430r
+page 4
+your card processing statement
+merchant number
+customer service
+5376 2401 0100063
+1-866-651-3068
+page 4 of 5
+statement period
+03/01/17 - 03/31/17
+amounts submitted
+date
+submitted
+03/31/17
+total
+sub totals
+mastercard
+amexct043
+visa
+visa debit
+discover acq
+$4,640.00
+$4,640.00
+$595.00
+$595.00
+$9,320.00
+$10,192.10
+$9,320.00
+$10,192.10
+$110.00
+$110.00
+total
+submitted
+$24,857.10
+$24,857.10
+$24,857.10
+third party transactions
+date
+description
+total
+adjustments/chargebacks
+date
+description
+total
+fees charged
+no third party transactions for this statement period
+no adjustments/chargebacks for this statement period
+date
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+type
+description
+mastercard
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+disc 1
+dues &amp; assessments
+auths &amp; avs
+pos auths
+pos-wats
+avs pos
+interchange
+process fee
+bin/ica fee
+license rate
+nabu fees
+mc kilobyte fee
+location fee
+amexct043
+disc 1
+auths &amp; avs
+pos auths
+interchange
+network fee
+visa
+disc 1
+auths &amp; avs
+pos auths
+pos-wats
+3701 trakker tr 1f, bozeman, mt 59718
+amount
+0.00
+amount
+0.00
+total
+-16.24
+-6.45
+-6.30
+-0.20
+-0.05
+-69.42
+-0.88
+-2.02
+-5.34
+-0.39
+-0.67
+-2.00
+-2.08
+-0.60
+-9.82
+-0.89
+-32.62
+-8.70
+-0.30
+volume
+rate
+4640.00
+0.00350
+63
+2
+1
+0.1000
+0.1000
+0.0500
+45
+45
+0.019500
+0.045000
+4640.00 0.0011500
+0.01950
+0.02850
+20
+24
+595.00
+0.00350
+6
+0.1000
+595.00
+0.00150
+9320.00
+0.00350
+87
+3
+0.1000
+0.1000
+nnnnnn 04 05 020017 115431r
+page 5
+your card processing statement
+merchant number
+customer service
+5376 2401 0100063
+1-866-651-3068
+page 5 of 5
+statement period
+03/01/17 - 03/31/17
+fees charged
+date
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+03/31/17
+type
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+cf
+misc
+misc
+misc
+misc
+description
+avs pos
+interchange
+acqr processor fees
+fixed network cp fee
+process fee
+bin/ica fee
+cr dues and assess
+file transmission fee
+vs ofln db
+disc 1
+auths &amp; avs
+pos auths
+pos-wats
+avs pos
+interchange
+acqr processor fees
+process fee
+bin/ica fee
+db dues and assess
+dcvr acq
+disc 1
+dues &amp; assessments
+auths &amp; avs
+pos auths
+interchange
+dscv data usage fee
+disc network auth fee
+total card fees
+batch header
+account on file
+merchnt protection
+regultry complianc
+total miscellaneous fees
+total (miscellaneous  fees and card fees)
+fee type legend
+misc = miscellaneous fees
+cf = card fees
+volume
+1
+90
+1b
+90
+90
+9320.00
+rate
+0.0500
+0.01950
+0.019500
+0.045000
+0.00130
+10192.10
+0.00350
+98
+2
+1
+0.1000
+0.1000
+0.0500
+100
+102
+102
+10192.10
+0.01550
+0.019500
+0.045000
+0.00130
+110.00
+0.00350
+1
+1
+1
+0.1000
+0.01950
+0.04750
+17
+0.2500
+total
+-0.05
+-196.60
+-1.76
+-2.00
+-1.76
+-4.05
+-12.12
+-4.09
+-35.67
+-9.80
+-0.20
+-0.05
+-85.05
+-1.55
+-1.99
+-4.59
+-13.25
+-0.39
+-0.16
+-0.10
+-1.98
+-0.02
+-0.04
+-542.24
+-4.25
+-5.00
+-4.95
+-4.95
+-19.15
+-$561.38
+tax gross reportable sales by tin total dollar amount of aggregate reportable payment card transactions funded and third party network
+transactions, for each participating payee, without regard to any adjustments for credits, cash equivalents,
+discount amount, fees, refunded amounts, or any other amounts per respective tax identification number.
+month
+mar
+description
+gross reportable sales - tin xxxxx2686
+2017 ytd gross reportable sales
+total
+$24,857.10
+$92,794.10
+ 3701 trakker tr 1f,  bozeman, mt 59718
+nnnnnn 05 05 020017 115432r
+page: 1, 2, 3, 4, 5
