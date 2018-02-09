@@ -1,6 +1,0 @@
-Chargeback Details: 
-Merchant: 537624080100019
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"09/19/2016","09/02/2016","SD119","VI","434769xxxx1063","1","First chargeback; initiated by the issuer","483","UNRECOGNIZED","PM 537624080100019","24022596248980000135133","016 260 40254","$70.00",
-"09/17/2016","09/02/2016","SD119","VI","434769xxxx1063","1","First chargeback; initiated by the issuer","483","DEFECTIVE MERCHANDISE","** NEW  TODAY **","24022596248980000135133","016 260 40254",,"$70.00"
-"Report Total",,,,,,,,,,,"1st CB Count","1","$70.00"

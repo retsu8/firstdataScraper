@@ -1,5 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010100006
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"11/19/2016","10/31/2016","SD119","VI","485620xxxx5758","1","First chargeback; initiated by the issuer","474","EMV CARD, NON EMV DEVICE","APM537624010100006","24022596319980000010470","016 323 40655",,"$340.00"
-"Report Total",,,,,,,,,,,"1st CB Count","1","$340.00"

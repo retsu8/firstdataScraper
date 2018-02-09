@@ -1,7 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010302396
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"01/23/2018","10/03/2017","SD119","VI","458643xxxx8983","1","First chargeback; initiated by the issuer","483","UNABLE TO AUTHENTICATE RESPONSE","PM 537624010302396","24022597276980000094234","018 020 41228","$75.00",
-"01/22/2018","10/03/2017","SD119","VI","458643xxxx8983","1","First chargeback; initiated by the issuer","483","UNABLE TO AUTHENTICATE RESPONSE","** NEW  TODAY **","24022597276980000094234","018 020 41228",,"$75.00"
-"10/24/2017","09/08/2017","SD119","VI","458643xxxx8983","1","First chargeback; initiated by the issuer","485","","PM 537624010302396","24022597251980000094290","017 294 42648","$75.00",
-"Report Total",,,,,,,,,,,"1st CB Count","1","$75.00"

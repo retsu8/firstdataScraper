@@ -1,9 +1,0 @@
-Chargeback Details: 
-Merchant: 537624020600300
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"12/27/2017","12/19/2017","SD119","MC","557134xxxx8302","1","First chargeback; initiated by the issuer","4837","UNAUTHORIZED CHARGE","** NEW  TODAY **","85376247354980000118389","0317360500709",,"$1,155.00"
-"10/19/2017","09/29/2017","SD119","VI","473702xxxx2737","1","First chargeback; initiated by the issuer","483","UNAUTHORIZED","PM 537624020600300","24022597273980000118309","017 287 41055","$465.00",
-"10/18/2017","09/29/2017","SD119","VI","473702xxxx2737","1","First chargeback; initiated by the issuer","483","UNAUTHORIZED","","24022597273980000118309","017 287 41055","$465.00",
-"10/17/2017","09/29/2017","SD119","VI","473702xxxx2737","1","First chargeback; initiated by the issuer","483","UNAUTHORIZED","","24022597273980000118309","017 287 41055","$465.00",
-"10/16/2017","09/29/2017","SD119","VI","473702xxxx2737","1","First chargeback; initiated by the issuer","483","UNAUTHORIZED","** NEW  TODAY **","24022597273980000118309","017 287 41055",,"$465.00"
-"Report Total",,,,,,,,,,,"1st CB Count","2","$1,620.00"

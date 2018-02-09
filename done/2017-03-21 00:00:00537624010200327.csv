@@ -1,6 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010200327
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"03/21/2017","01/25/2017","SD119","VI","414729xxxx2501","1","First chargeback; initiated by the issuer","430","EMV CARD, NON-EMV DEVICE","PM 537624010200327","24022597025980000014699","017 078 40462","$286.00",
-"03/20/2017","01/25/2017","SD119","VI","414729xxxx2501","1","First chargeback; initiated by the issuer","430","SERVICES NOT RENDERED 030117","** NEW  TODAY **","24022597025980000014699","017 078 40462",,"$286.00"
-"Report Total",,,,,,,,,,,"1st CB Count","1","$286.00"

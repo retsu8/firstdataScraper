@@ -1,6 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010100592
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"09/04/2017","08/24/2017","SD119","VI","461046xxxx3067","1","First chargeback; initiated by the issuer","481","UNAUTHORIZED","PM 537624010100592","24022597237980000038973","017 244 40714","$500.00",
-"09/02/2017","08/24/2017","SD119","VI","461046xxxx3067","1","First chargeback; initiated by the issuer","481","SERVICES NOT RENDERED 082917","** NEW  TODAY **","24022597237980000038973","017 244 40714",,"$500.00"
-"Report Total",,,,,,,,,,,"1st CB Count","1","$500.00"

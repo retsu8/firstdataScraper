@@ -1,6 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010101038
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"06/27/2017","06/02/2017","SD119","VI","410039xxxx7069","1","First chargeback; initiated by the issuer","453","ACCT CLSD DUE TO FRAUD ON EXCEPTION FILE 061917.","PM 537624010101038","24022597155980000062591","017 176 40088","$328.62",
-"06/26/2017","06/02/2017","SD119","VI","410039xxxx7069","1","First chargeback; initiated by the issuer","453","TRAN DATE 051417 REF 24688087135030017217713","** NEW  TODAY **","24022597155980000062591","017 176 40088",,"$328.62"
-"Report Total",,,,,,,,,,,"1st CB Count","1","$328.62"

@@ -1,7 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010600187
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"09/06/2017","07/26/2017","SD119","VI","418621xxxx9639","1","First chargeback; initiated by the issuer","482","TRANS EXCEEDS AUTH AMOUNT $ 15.41","PM 537624010600187","24022597208980000060915","017 246 40217","$93.09",
-"09/05/2017","07/26/2017","SD119","VI","418621xxxx9639","1","First chargeback; initiated by the issuer","482","TRANS EXCEEDS AUTH AMOUNT $ 15.41","","24022597208980000060915","017 246 40217","$93.09",
-"09/04/2017","07/26/2017","SD119","VI","418621xxxx9639","1","First chargeback; initiated by the issuer","482","AUTHENTICATION DENIAL","** NEW  TODAY **","24022597208980000060915","017 246 40217",,"$93.09"
-"Report Total",,,,,,,,,,,"1st CB Count","1","$93.09"

@@ -1,9 +1,0 @@
-Chargeback Details: 
-Merchant: 537624010600013
-Report Date,Trans Date,File Source,Card Type,Cardholder Number,CB Type,CB Type Description,CB Reason Code,Reason Text,Disposition,Reference Number,CB Sequence Number,CB Amount,1st CB Amount
-"11/29/2016","11/20/2016","SD119","VI","434258xxxx3928","1","First chargeback; initiated by the issuer","462","NOT AS DESCRIBED","PM 537624010600013","24022596326980000004466","016 332 40295","$222.91",
-"11/28/2016","11/20/2016","SD119","VI","434258xxxx3928","1","First chargeback; initiated by the issuer","462","TRAN DATE 103116 REF 24022596304980000076288","** NEW  TODAY **","24022596326980000004466","016 332 40295",,"$222.91"
-"11/21/2016","11/10/2016","SD119","VI","410039xxxx7339","1","First chargeback; initiated by the issuer","483","NO AUTHORIZATION","RP 410039","24022596316980000004492","016 323 40694","$36.74",
-"11/19/2016","11/10/2016","SD119","VI","410039xxxx7339","1","First chargeback; initiated by the issuer","483","ACCOUNT STATUSED CODE C","** NEW  TODAY **","24022596316980000004492","016 323 40694",,"$36.74"
-"11/04/2016","10/27/2016","SD119","MC","517805xxxx9083","1","First chargeback; initiated by the issuer","4870","","** NEW  TODAY **","85376246302980000004493","0316308502704",,"$6.43"
-"Report Total",,,,,,,,,,,"1st CB Count","3","$266.08"
