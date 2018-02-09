@@ -1,4 +1,4 @@
-import time, sys, os, csv
+import time, sys, os, csv, shutil
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -76,38 +76,55 @@ class Main(object):
                 my_panda['amount'] = my_panda['amount'].replace('[\$,]', '', regex=True).astype(float).apply(to_cent).astype(int)
                 my_panda.to_csv(str(my_file)+'_panda.csv')
                 headers = '`,`'.join(list(my_panda))
-                sql = "LOAD DATA LOCAL INFILE '{}' REPLACE INTO TABLE druporta_tss_data.transactions FIELDS TERMINATED BY ',' lines terminated by '\n' IGNORE 1 LINES (`{}`);".format(str(my_file)+'_panda.csv', headers)
-                if not callConnection(self.conn, sql):
-                    try:
-                        my_panda.to_sql('transactions', self.confir, if_exists='append', index=False, chunksize=100)
-                    except:
-                        for j, item in my_panda.iterrows():
+                try:
+                    my_panda.to_sql('chargebacks', self.confir, if_exists='append', index=False, chunksize=1000)
+                except:
+                    m = 0
+                    n = 100
+                    if n > int(my_panda.shape[0]):
+                        n = int(my_panda.shape[0])
+                    #print(my_panda.shape)
+                    while n <= int(my_panda.shape[0]):
+                        update_list = []
+                        for j, item in my_panda[m:n].iterrows():
                             """Place in the update script"""
                             update = '","'.join(str(k) for k in item.values.tolist())
-                            del item['tran-identifier']
-                            str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
+                            update_list.append('("{}")'.format(update))
+                        #print(update_list)
+                        insert_me = 'insert into chargebacks(`{}`) VALUES{}'.format(headers, ','.join(update_list))
+                        #print(insert_me)
+                        if not callConnection(self.confir, insert_me):
+                            for j, item in my_panda[m:n].iterrows():
+                                """Place in the update script"""
+                                update = '","'.join(str(k) for k in item.values.tolist())
+                                str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
+                                insert_me = 'insert into chargebacks(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
+                                #print(insert_me)
+                                if not callConnection(self.confir, insert_me):
+                                    print("Something went wronge")
+                                    break
 
-                            insert_me = 'insert into transactions(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
-
-                            #print(insert_me)
-
-                            if not callConnection(self.confir, insert_me):
-                                break
-                else:
-                    print('The load doata localfile executed properly and is now ready to use')
+                        if n == my_panda.shape[0]:
+                            break
+                        elif n+100 > my_panda.shape[0]:
+                            n = my_panda.shape[0]
+                            m += 100
+                        else:
+                            n += 100
+                            m += 100
 
                 print(my_panda)
-            shutil.remove(str(my_file)+'_panda.csv')
+            #os.remove(str(my_file)+'_panda.csv')
             shutil.move(my_file, 'done/'+str(my_date)+'.csv')
 
     def getchargeback(self):
-        profile = webdriver.FirefoxProfile()
-        profile.set_preference("browser.download.folderList", 2)
-        profile.set_preference("browser.download.manager.showWhenStarting", False)
-        profile.set_preference("browser.download.dir", dwn)
-        profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv")
-
-        browser = webdriver.Firefox(firefox_profile=profile)
+        options = webdriver.ChromeOptions()
+        options.binary_location = '/usr/bin/google-chrome'
+        prefs = {"download.default_directory" : dwn, "Page.setDownloadBehavior": {"behavior" : "allow", "downloadPath": dwn}}
+        options.add_experimental_option('prefs', prefs)
+        #options.add_argument('headless')
+        options.add_argument('window-size=1200x600')
+        browser = webdriver.Chrome(chrome_options=options)
         browser.get('https://www.youraccessone.com')
 
         username = browser.find_element_by_id("txtUserName")
@@ -137,11 +154,11 @@ class Main(object):
 
         window_before = browser.window_handles[0]
         print(browser.title)
-        print(browser.page_source)
-        table_id = browser.find_element_by_xpath("//table[@class='ctl00_ContentPage_uxReportGrid_ctl00']")
-        for row in table_id.find_elements_by_xpath(".//tr"):
-            cell = [item for item in row.find_elements_by_tag_name('td')]
-            print(cell)
+        #print(browser.page_source)
+        table_id = browser.find_element_by_class_name("rgMasterTable")
+        for row in table_id.find_elements_by_class_name("rgRow"):
+            print(row)
+            cell = [item for item in row.find_elements_by_css_selector("td")][0]
             click_me = "//*[text()='{}']".format(cell.text)
             browser.find_element_by_xpath(click_me).click()
 
@@ -152,8 +169,11 @@ class Main(object):
             time.sleep(5)
 
             #download chargeback
-            browser.find_element_by_id("ctl00_ContentPage_uxExportChargebacks_litExport").click()
-            browser.find_element_by_id("ctl00_ContentPage_uxExportChargebacks_imgCSV").click()
+            element_to_hover_over = browser.find_element_by_xpath("//*[text()='EXPORT']")
+            hover = ActionChains(browser).move_to_element(element_to_hover_over)
+            hover.perform()
+
+            browser.find_element_by_xpath("//*[text()='CSV']").click()
 
             #go back to previus page
             browser.close();
@@ -163,6 +183,12 @@ class Main(object):
         #browser.close();
 
 if __name__ == '__main__':
+    arv = sys.argv
+    print(arv)
     mn = Main()
-    mn.getchargeback()
-    #mn.parse_csv()
+    if '-r' in arv:
+        mn.getchargeback()
+    if '-p' in arv:
+        mn.parse_csv()
+    else:
+        print("-r 'get charges' -p 'parse trans'")
