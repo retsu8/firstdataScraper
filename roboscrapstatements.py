@@ -1,4 +1,4 @@
-import time, sys, os, csv, shutil, re
+import time, sys, os, csv, shutil, re, math
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -37,8 +37,14 @@ def firstConn():
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
+    print(len(l) % n)
+    if len(l) % n == 0:
+        r = int(len(l)/n)
+    else:
+        r = int(math.ceil(len(l)/n))
+    print(r)
+    for i in range(0, len(l), r):
+        yield l[i:i + r]
 
 def to_type(x):
     y = x.lower()
@@ -87,7 +93,7 @@ class Main(object):
     def parse_csv(self):
         for file in os.listdir("pdf"):
             my_file = os.path.join(dwn, file)
-            print(my_file)
+            #print(my_file)
             pd2t([my_file, '-t', 'html', '-o', 'temp.html'])
             my_file = [item for item in open('temp.html', "r")]
             my_statement_dict = {}
@@ -97,43 +103,67 @@ class Main(object):
             my_file = cleanup
             my_file = list(filter(None, my_file))
             #[print(item) for item in my_file]
-            for line in my_file:
+            sec_amt_submit = False
+            for i, line in enumerate(my_file):
+                if "amounts submitted" in line and sec_amt_submit and 'amounts_submitted_table' not in my_statement_dict:
+                    amounts_submitted_table = i
+                    my_statement_dict['amounts_submitted_table'] = amounts_submitted_table
+
                 if "merchant number" in line and 'mid' not in my_statement_dict:
                     merch_number = my_file.index(line)
                     my_statement_dict['mid'] = str(my_file[merch_number+4].replace(' ', ''))
 
-                if "amounts submitted" in line and 'amount_submitted' not in my_statement_dict:
+                elif "amounts submitted" in line and 'amount_submitted' not in my_statement_dict:
+                    sec_amt_submit = True
                     amount_submitted = my_file.index(line)
                     my_statement_dict['amount_submitted'] = str(my_file[amount_submitted+6])
 
-                if "third party transactions" in line and 'third_party_transactions' not in my_statement_dict:
+                elif "third party transactions" in line and 'third_party_transactions' not in my_statement_dict:
                     third_party_transactions = my_file.index(line)
                     my_statement_dict['third_party_transactions'] = str(my_file[amount_submitted+6])
 
-                if "adjustments/chargebacks" in line and 'adjustments_chargebacks' not in my_statement_dict:
+                elif "adjustments/chargebacks" in line and 'adjustments_chargebacks' not in my_statement_dict:
                     adjustments_chargebacks = my_file.index(line)
                     my_statement_dict['adjustments_chargebacks'] = str(my_file[amount_submitted+6])
 
-                if "fees charged" in line and 'fees_charged' not in my_statement_dict:
+                elif "fees charged" in line and 'fees_charged' not in my_statement_dict:
                     fees_charged = my_file.index(line)
                     my_statement_dict['fees_charged'] = str(my_file[amount_submitted+6])
 
-                if "summary by card type" in line and 'summary_card_type' not in my_statement_dict:
+                elif "summary by card type" in line and 'summary_card_type' not in my_statement_dict:
                     summary_card_type = my_file.index(line)
                     my_statement_dict['summary_card_type'] = ''
 
-                if "amounts funded by batch" in line and 'batch_fund' not in my_statement_dict:
+                elif "amounts funded by batch" in line and 'batch_fund' not in my_statement_dict:
                     batch_fund = my_file.index(line)
-                    my_statement_dict['batch_fund'] = ''
+                    my_statement_dict['batch_fund'] = batch_fund
 
             sum_by_card = my_file[summary_card_type+6:batch_fund]
             ticket_loc = sum_by_card.index('items')
             sum_by_card = sum_by_card[:ticket_loc] + [0] + sum_by_card[ticket_loc:]
             sum_by_card = [x for x in sum_by_card if x != 'amount' and x != 'ticket' and x != 'average' and x != 'items']
-            six_by = [item for item in chunks(sum_by_card, 6)]
+            six_by = [item for item in chunks(sum_by_card, 7)]
             headers = six_by.pop(0)
             my_panda = pd.DataFrame(six_by, columns=headers, index=['avg_ticket','gross_sale_items','gross_sale_amt', 'refund_items', 'refund_amount', 'total_amount'])
+            my_statement_dict['summary_card_type'] = my_panda
+
+            amt_fnd_btch = my_file[batch_fund+4:amounts_submitted_table-11]
+            ticket_loc = amt_fnd_btch.index('batch')
+            amt_fnd_btch = amt_fnd_btch[:ticket_loc] + [0,0] + amt_fnd_btch[ticket_loc:]
+
+            ticket_loc = amt_fnd_btch.index('month end charge')
+            amt_fnd_btch = amt_fnd_btch[:ticket_loc] + [0,0] + amt_fnd_btch[ticket_loc:]
+
+            z = ['total', 'batch', 'number', 'month end charge', 'submitted', 'amount','third party', 'transactions', 'adjustments/', 'chargebacks', 'fees', 'charged', 'funded']
+            amt_fnd_btch = [x for x in amt_fnd_btch if x not in z]
+            six_by = [item for item in chunks(amt_fnd_btch, 7)]
+
+            headers = six_by.pop(0)
+            my_panda = pd.DataFrame(six_by, columns=headers, index=['batch_number','sub_amt','third_party_trans', 'adj_charge', 'fees_charge', 'funded_amt'])
+            my_statement_dict['summary_card_type'] = my_panda
+
             print(my_panda)
+
 
             #print(my_statement_dict)
 
