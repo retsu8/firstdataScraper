@@ -13,7 +13,7 @@ dwn = os.path.join(direct, 'csv')
 
 firstdata = {
     'drivername': 'mysql+pymysql',
-    'host': 'auroramerchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
+    'host': 'merchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
     'port': 3306,
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
@@ -33,6 +33,19 @@ def firstConn():
     firsty = create_engine(URL(**firstdata), strategy='threadlocal')
     firsty.echo = False
     return firsty
+
+def callConnection(conn, sql):
+    # open a transaction - this runs in the context of method_a's transaction
+    trans = conn.begin()
+    try:
+        inst = conn.execute(sql)
+        trans.commit()  # transaction is not committed yet
+    except:
+        print(sys.exc_info())
+        inst = sys.exc_info()
+        trans.rollback()  # this rolls back the transaction unconditionally
+        raise
+    return inst
 
 def to_type(x):
     y = x.lower()
@@ -213,11 +226,14 @@ class Main(object):
                 browser.close();
                 print(browser.window_handles)
                 browser.switch_to.window(browser.window_handles[0])
-            try:
-                browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').click()
-                time.sleep(5)
-            except:
+            if len(list(table_id.find_elements_by_class_name("rgRow"))) < 10:
                 break
+            else:
+                try:
+                    browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').click()
+                    time.sleep(5)
+                except:
+                    break
 
         browser.close();
 

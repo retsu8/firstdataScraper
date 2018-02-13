@@ -8,17 +8,18 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
 from decimal import Decimal, getcontext
 from pdf2txt import main as pd2t
+from datetime import datetime
 
 direct = os.getcwd()
 dwn = os.path.join(direct, 'pdf')
 
 firstdata = {
     'drivername': 'mysql+pymysql',
-    'host': 'auroramerchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
+    'host': 'merchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
     'port': 3306,
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
-    'database': 'firstdata',
+    'database': 'statementData',
 }
 card_dict = {
     'vi':'Visa',
@@ -35,14 +36,25 @@ def firstConn():
     firsty.echo = False
     return firsty
 
+def callConnection(conn, sql):
+    # open a transaction - this runs in the context of method_a's transaction
+    trans = conn.begin()
+    try:
+        inst = conn.execute(sql)
+        trans.commit()  # transaction is not committed yet
+    except:
+        print(sys.exc_info())
+        inst = sys.exc_info()
+        trans.rollback()  # this rolls back the transaction unconditionally
+        raise
+    return inst
+
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
-    print(len(l) % n)
     if len(l) % n == 0:
         r = int(len(l)/n)
     else:
         r = int(math.ceil(len(l)/n))
-    print(r)
     for i in range(0, len(l), r):
         yield l[i:i + r]
 
@@ -54,7 +66,13 @@ def to_type(x):
         return 'Other'
 
 def to_int(x):
-    return int(x)
+    y = x.replace(',', '')
+    try:
+        y = float(y)
+        y = int(y)
+    except:
+        print(sys.exc_info)
+    return y
 
 def to_cent(x):
     getcontext().prec = 6
@@ -69,8 +87,7 @@ def to_cent(x):
 
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>')
-  cleantext = re.sub(cleanr, '', raw_html)
-  return cleantext
+  return re.sub(cleanr, '', raw_html)
 
 def manage_firstdata(method):
     def decorated_method(self, *args, **kwargs):
@@ -92,19 +109,23 @@ class Main(object):
     @manage_firstdata
     def parse_csv(self):
         for file in os.listdir("pdf"):
-            my_file = os.path.join(dwn, file)
-            #print(my_file)
-            pd2t([my_file, '-t', 'html', '-o', 'temp.html'])
-            my_file = [item for item in open('temp.html', "r")]
+            open_file = os.path.join(dwn, file)
+            #print(open_file)
+            pd2t([open_file, '-t', 'html', '-o', 'temp.html'])
+            original = [item for item in open('temp.html', "r")]
             my_statement_dict = {}
             cleanup = []
-            for line in my_file:
+            for line in original:
                 cleanup.append(cleanhtml(line.strip()).lower())
             my_file = cleanup
             my_file = list(filter(None, my_file))
             #[print(item) for item in my_file]
             sec_amt_submit = False
             for i, line in enumerate(my_file):
+                if "this is not a bill" in line and 'proccessing_date' not in my_statement_dict:
+                    proccessing_date = i+1
+                    my_statement_dict['proccessing_date'] = datetime.strptime(my_file[proccessing_date][-8:], "%m/%d/%y")
+
                 if "amounts submitted" in line and sec_amt_submit and 'amounts_submitted_table' not in my_statement_dict:
                     amounts_submitted_table = i
                     my_statement_dict['amounts_submitted_table'] = amounts_submitted_table
@@ -115,7 +136,7 @@ class Main(object):
 
                 elif "amounts submitted" in line and 'amount_submitted' not in my_statement_dict:
                     sec_amt_submit = True
-                    amount_submitted = my_file.index(line)
+                    amount_submitted = i
                     my_statement_dict['amount_submitted'] = str(my_file[amount_submitted+6])
 
                 elif "third party transactions" in line and 'third_party_transactions' not in my_statement_dict:
@@ -123,90 +144,103 @@ class Main(object):
                     my_statement_dict['third_party_transactions'] = str(my_file[amount_submitted+6])
 
                 elif "adjustments/chargebacks" in line and 'adjustments_chargebacks' not in my_statement_dict:
-                    adjustments_chargebacks = my_file.index(line)
-                    my_statement_dict['adjustments_chargebacks'] = str(my_file[amount_submitted+6])
+                    adjustments_chargebacks = i
+                    print(adjustments_chargebacks)
+                    print(my_file[adjustments_chargebacks+6])
+                    my_statement_dict['adjustments_chargebacks'] = str(my_file[adjustments_chargebacks+6])
 
                 elif "fees charged" in line and 'fees_charged' not in my_statement_dict:
-                    fees_charged = my_file.index(line)
-                    my_statement_dict['fees_charged'] = str(my_file[amount_submitted+6])
+                    fees_charged = i
+                    my_statement_dict['fees_charged'] = str(my_file[fees_charged+6])
 
                 elif "summary by card type" in line and 'summary_card_type' not in my_statement_dict:
-                    summary_card_type = my_file.index(line)
+                    summary_card_type = i
                     my_statement_dict['summary_card_type'] = ''
 
                 elif "amounts funded by batch" in line and 'batch_fund' not in my_statement_dict:
                     batch_fund = my_file.index(line)
                     my_statement_dict['batch_fund'] = batch_fund
 
-            sum_by_card = my_file[summary_card_type+6:batch_fund]
-            ticket_loc = sum_by_card.index('items')
-            sum_by_card = sum_by_card[:ticket_loc] + [0] + sum_by_card[ticket_loc:]
-            sum_by_card = [x for x in sum_by_card if x != 'amount' and x != 'ticket' and x != 'average' and x != 'items']
-            six_by = [item for item in chunks(sum_by_card, 7)]
-            headers = six_by.pop(0)
-            my_panda = pd.DataFrame(six_by, columns=headers, index=['avg_ticket','gross_sale_items','gross_sale_amt', 'refund_items', 'refund_amount', 'total_amount'])
-            my_statement_dict['summary_card_type'] = my_panda
+                elif "no third party transactions for this statement period" in line and 'fee_charg' not in my_statement_dict:
+                    fee_charg = i+1
+                    my_statement_dict['fee_charg'] = fee_charg
 
-            amt_fnd_btch = my_file[batch_fund+4:amounts_submitted_table-11]
-            ticket_loc = amt_fnd_btch.index('batch')
-            amt_fnd_btch = amt_fnd_btch[:ticket_loc] + [0,0] + amt_fnd_btch[ticket_loc:]
+                elif "fee type legend" in line and 'fee_type_legend' not in my_statement_dict:
+                    fee_type_legend = i
+                    my_statement_dict['fee_type_legend'] = fee_type_legend
 
-            ticket_loc = amt_fnd_btch.index('month end charge')
-            amt_fnd_btch = amt_fnd_btch[:ticket_loc] + [0,0] + amt_fnd_btch[ticket_loc:]
+            headers = '`,`'.join(['date','mid','sale_count','sale_vol','refund_count','refund_vol','debit_count','total_chr'])
+            lst = [my_statement_dict['proccessing_date'].date(), my_statement_dict['mid']]
 
-            z = ['total', 'batch', 'number', 'month end charge', 'submitted', 'amount','third party', 'transactions', 'adjustments/', 'chargebacks', 'fees', 'charged', 'funded']
-            amt_fnd_btch = [x for x in amt_fnd_btch if x not in z]
-            six_by = [item for item in chunks(amt_fnd_btch, 7)]
+            if float(to_cent(my_statement_dict['amount_submitted'])) > 0:
+                sum_by_card = my_file[summary_card_type+3:batch_fund]
+                print(sum_by_card)
+                ticket_loc = sum_by_card.index('items')
+                sum_by_card = sum_by_card[:ticket_loc] + [0] + sum_by_card[ticket_loc:]
+                z = ['amount', 'ticket', 'average','items', 'total gross sales you submitted', 'refunds', 'total amount you submitted', 'card type']
+                sum_by_card = [x for x in sum_by_card if x not in z]
+                six_by = [item for item in chunks(sum_by_card, 7)]
+                print(six_by)
+                six_headers = six_by.pop(0)
+                my_panda = pd.DataFrame(six_by, columns=six_headers, index=['avg_ticket','gross_sale_items','gross_sale_amt', 'refund_items', 'refund_amount', 'total_amount'])
+                my_statement_dict['summary_card_type'] = my_panda
 
-            headers = six_by.pop(0)
-            my_panda = pd.DataFrame(six_by, columns=headers, index=['batch_number','sub_amt','third_party_trans', 'adj_charge', 'fees_charge', 'funded_amt'])
-            my_statement_dict['summary_card_type'] = my_panda
+                #print(my_panda)
 
-            print(my_panda)
+                amt_fnd_btch = my_file[batch_fund+4:amounts_submitted_table-11]
+                ticket_loc = amt_fnd_btch.index('batch')
+                amt_fnd_btch = amt_fnd_btch[:ticket_loc] + [0,0] + amt_fnd_btch[ticket_loc:]
 
+                ticket_loc = amt_fnd_btch.index('month end charge')
+                amt_fnd_btch = amt_fnd_btch[:ticket_loc] + [0,0] + amt_fnd_btch[ticket_loc:]
 
-            #print(my_statement_dict)
+                z = ['total', 'batch', 'number', 'month end charge', 'submitted', 'amount','third party', 'transactions', 'adjustments/', 'chargebacks', 'fees', 'charged', 'funded']
+                amt_fnd_btch = [x for x in amt_fnd_btch if x not in z]
+                six_by = [item for item in chunks(amt_fnd_btch, 7)]
 
-            #print(my_file)
+                six_headers = six_by.pop(0)
+                my_panda = pd.DataFrame(six_by, columns=six_headers, index=['batch_number','sub_amt','third_party_trans', 'adj_charge', 'fees_charge', 'funded_amt'])
+                my_statement_dict['amt_fnd_btch'] = my_panda
 
-            sys.exit()
-            try:
-                my_panda.to_sql('chargebacks', self.confir, if_exists='append', index=False, chunksize=1000)
-            except:
-                m = 0
-                n = 100
-                if n > int(my_panda.shape[0]):
-                    n = int(my_panda.shape[0])
-                #print(my_panda.shape)
-                while n <= int(my_panda.shape[0]):
-                    update_list = []
-                    for j, item in my_panda[m:n].iterrows():
-                        """Place in the update script"""
-                        update = '","'.join(str(k) for k in item.values.tolist())
-                        update_list.append('("{}")'.format(update))
-                    #print(update_list)
-                    insert_me = 'insert into chargebacks(`{}`) VALUES{}'.format(headers, ','.join(update_list))
-                    #print(insert_me)
-                    if not callConnection(self.confir, insert_me):
-                        for j, item in my_panda[m:n].iterrows():
-                            """Place in the update script"""
-                            update = '","'.join(str(k) for k in item.values.tolist())
-                            str_update = ','.join('`{}`="{}"'.format(key, item) for key, item in item.items())
-                            insert_me = 'insert into chargebacks(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
-                            #print(insert_me)
-                            if not callConnection(self.confir, insert_me):
-                                print("Something went wronge")
-                                break
+                print(my_statement_dict['summary_card_type'])
 
-                    if n == my_panda.shape[0]:
-                        break
-                    elif n+100 > my_panda.shape[0]:
-                        n = my_panda.shape[0]
-                        m += 100
-                    else:
-                        n += 100
-                        m += 100
-            shutil.move(my_file, 'done/'+str(my_date)+str(mid)+'.pdf')
+                #print(my_panda)
+                #print(my_statement_dict)
+                del my_statement_dict['summary_card_type']['total']
+
+                my_statement_dict['summary_card_type'] = my_statement_dict['summary_card_type'].transpose()
+                my_statement_dict['summary_card_type']['gross_sale_items'] = my_statement_dict['summary_card_type']['gross_sale_items'].apply(to_int)
+                print(my_statement_dict['summary_card_type']['gross_sale_items'])
+                lst.append(my_statement_dict['summary_card_type']['gross_sale_items'].sum())
+
+                my_statement_dict['summary_card_type']['gross_sale_amt'] = my_statement_dict['summary_card_type']['gross_sale_amt'].apply(to_cent)
+                lst.append(my_statement_dict['summary_card_type']['gross_sale_amt'].sum())
+
+                my_statement_dict['summary_card_type']['refund_items'] =  my_statement_dict['summary_card_type']['refund_items'].apply(to_int)
+                lst.append(my_statement_dict['summary_card_type']['refund_items'].sum())
+
+                my_statement_dict['summary_card_type']['refund_amount'] =  my_statement_dict['summary_card_type']['refund_amount'].apply(to_cent)
+                lst.append(my_statement_dict['summary_card_type']['refund_amount'].sum())
+
+                my_statement_dict['summary_card_type']['gross_sale_amt'] = my_statement_dict['summary_card_type']['gross_sale_amt'].apply(to_cent)
+                lst.append(my_statement_dict['summary_card_type']['gross_sale_amt'].sum())
+
+                lst.append(my_statement_dict['adjustments_chargebacks'])
+
+            else:
+                lst.extend([0,0,0,0,0,0])
+                print(lst)
+
+            insert_lst = "','".join(map(str, lst))
+            insert_me = "insert into firstdata_statement(`{}`) VALUES('{}')".format(headers, insert_lst)
+
+            print(insert_me)
+
+            if callConnection(self.confir, insert_me):
+                shutil.move(open_file, 'done/'+str(my_statement_dict['proccessing_date'].date())+str(my_statement_dict['mid'])+'.pdf')
+            else:
+                print('Failed to insert the value')
+            #    insert_me = 'insert into chargebacks(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
 
     def getstatement(self):
         ###Setup options for chrome web browser
@@ -234,17 +268,28 @@ class Main(object):
 
         while True:
             table_id = browser.find_element_by_class_name("rgMasterTable")
+            try:
+                alert = browser.switch_to.alert
+                alert().accept()
+            except:
+                print('no alert')
+
             for row in table_id.find_elements_by_class_name("rgRow"):
-                print(row)
-                cell = [item for item in row.find_elements_by_css_selector("td")][6]
-                click_me = "//*[text()='{}']".format(cell.text)
-                print(click_me)
-                browser.find_element_by_xpath(click_me).click()
+                try:
+                    cell = [item for item in row.find_elements_by_css_selector("td")][6]
+                    click_me = "//*[text()='{}']".format(cell.text)
+                    browser.find_element_by_xpath(click_me).click()
+                except:
+                    try:
+                        alert = browser.switch_to.alert
+                        alert.accept()
+                    except:
+                        print(sys.exc_info)
 
             try:
                 browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').click()
             except:
-                break
+                print(sys.exc_info())
             time.sleep(5)
 
         browser.close();
