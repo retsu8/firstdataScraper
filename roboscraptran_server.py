@@ -69,6 +69,13 @@ def to_type(x):
     else:
         return 'Other'
 
+def key_bit(x):
+    y = x.lower()
+    if y in 'y':
+        return 1
+    else:
+        return 0
+
 def to_countrycode(x):
     x = x.lower()
     if x in country_codes:
@@ -80,6 +87,13 @@ def make_type_nice(x):
     else:
         return str('Sale')
 
+def key_bit(x):
+    y = x.lower()
+    if y in 'y':
+        return 1
+    else:
+        return 0
+        
 def build_tran_id(my_panda):
     return str(my_panda['reference-number']) + " "+ str(my_panda['File Source']) +' '+ str(generate(10, 100))
 
@@ -140,10 +154,10 @@ class Main(object):
                 my_panda = pd.read_csv(my_file, header=1, parse_dates=[4,5], infer_datetime_format=True, encoding='utf-8')
                 #my_panda.reset_index(level=0, inplace=True)
                 del my_panda['Matched']
-                del my_panda['Keyed']
                 del my_panda['Exp Date']
-                my_panda.rename(columns={'Merchant #':'MID','Merchant Name':'merchant-name','Report Date': 'processing-date', 'Trans Date': 'transaction-date', 'Batch #':'batch-number', 'Trans Time':'transaction-time','Trans Code':'tran-type', 'Country Code':'country-code','Card Type':'card-type','Card #':'card-number','Auth #':'auth-code','Trans Amount':'amount','Terminal #':'reference-number'}, inplace=True)
+                my_panda.rename(columns={'Keyed':'keyed','Merchant #':'MID','Merchant Name':'merchant-name','Report Date': 'processing-date', 'Trans Date': 'transaction-date', 'Batch #':'batch-number', 'Trans Time':'transaction-time','Trans Code':'tran-type', 'Country Code':'country-code','Card Type':'card-type','Card #':'card-number','Auth #':'auth-code','Trans Amount':'amount','Terminal #':'reference-number'}, inplace=True)
                 my_panda= my_panda.fillna(0)
+
                 my_date = str(my_panda.iloc[0]['processing-date']).replace('/','-')
                 my_panda['card-type'] = my_panda['card-type'].apply(to_type)
                 my_panda['country-code'] = my_panda['country-code'].apply(to_countrycode)
@@ -152,6 +166,7 @@ class Main(object):
                 my_panda['transaction-date'] = pd.to_datetime(my_panda['transaction-date'], format='%m/%d/%Y').astype('datetime64[ns]', copy=True)
                 my_panda['batch-date'] = pd.to_datetime(my_panda['transaction-date'])
                 my_panda['tran-identifier'] = my_panda.apply(build_tran_id, axis=1)
+                my_panda['keyed'] = my_panda['keyed'].apply(key_bit)
                 del my_panda['File Source']
                 my_panda['amount'] = my_panda['amount'].apply(to_cent)
                 my_panda.sort_values(by=['processing-date'], inplace=True)

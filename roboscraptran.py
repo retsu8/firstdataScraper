@@ -140,10 +140,11 @@ class Main(object):
                 my_panda = pd.read_csv(my_file, header=1, parse_dates=[4,5], infer_datetime_format=True, encoding='utf-8')
                 #my_panda.reset_index(level=0, inplace=True)
                 del my_panda['Matched']
-                del my_panda['Keyed']
                 del my_panda['Exp Date']
+                del my_panda['Keyed']
                 my_panda.rename(columns={'Merchant #':'MID','Merchant Name':'merchant-name','Report Date': 'processing-date', 'Trans Date': 'transaction-date', 'Batch #':'batch-number', 'Trans Time':'transaction-time','Trans Code':'tran-type', 'Country Code':'country-code','Card Type':'card-type','Card #':'card-number','Auth #':'auth-code','Trans Amount':'amount','Terminal #':'reference-number'}, inplace=True)
                 my_panda= my_panda.fillna(0)
+
                 my_date = str(my_panda.iloc[0]['processing-date']).replace('/','-')
                 my_panda['card-type'] = my_panda['card-type'].apply(to_type)
                 my_panda['country-code'] = my_panda['country-code'].apply(to_countrycode)
@@ -155,6 +156,8 @@ class Main(object):
                 del my_panda['File Source']
                 my_panda['amount'] = my_panda['amount'].apply(to_cent)
                 my_panda.sort_values(by=['processing-date'], inplace=True)
+
+                print(my_panda)
 
                 headers = '`,`'.join(list(my_panda))
                 try:
