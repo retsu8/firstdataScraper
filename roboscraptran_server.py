@@ -93,7 +93,7 @@ def key_bit(x):
         return 1
     else:
         return 0
-        
+
 def build_tran_id(my_panda):
     return str(my_panda['reference-number']) + " "+ str(my_panda['File Source']) +' '+ str(generate(10, 100))
 
@@ -212,7 +212,7 @@ class Main(object):
 
                 print(my_panda)
             #os.remove(str(my_file)+'_panda.csv')
-            shutil.move(my_file, 'done/'+str(my_date)+'.csv')
+            shutil.move(my_file, 'done/'+str(my_date)+'tran.csv')
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""

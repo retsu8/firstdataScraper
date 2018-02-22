@@ -9,6 +9,7 @@ from sqlalchemy.engine.url import URL
 from decimal import Decimal, getcontext
 from pdf2txt import main as pd2t
 from datetime import datetime
+from drive import Drive
 
 direct = os.getcwd()
 dwn = os.path.join(direct, 'pdf')
@@ -20,7 +21,9 @@ firstdata = {
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
     'database': 'statementData',
+    'query':{'ssl_ca':'./rds-combined-ca-bundle.pem'}
 }
+
 card_dict = {
     'vi':'Visa',
     'ae':'Amex',
@@ -29,6 +32,8 @@ card_dict = {
     'eb':'EBT',
     'db':'PinDebit'
 }
+
+folderID = '0B7PSHsdd0u-CblM0SlBvcmZwQVk'
 
 def firstConn():
     """Connect to firstdata db"""
@@ -105,9 +110,72 @@ def manage_firstdata(method):
     return decorated_method
 
 class Main(object):
+    @manage_firstdata
+    def get_ID(self, mid, date, statement):
+        dr = Drive()
+        mn = Main()
+        print(mid, date, statement)
+        currentdate = date.replace(day=1)
+        headers = ['MID','date','fileID','folderID']
+        sect = {}
+        try:
+            my_query = "SELECT * from statementData.notifyStatement where MID like '{}' and `date` = '{}' limit 1".format("','".join(mid), str(currentdate.date()))
+
+            print(my_query)
+            fileID = [item for item in callConnection(self.confir, my_query)]
+            print("This is my search for file id: {}".format(fileID))
+            if not fileID:
+                my_query = "SELECT * from notifyStatement where MID = '{}' limit 1".format("','".join(mid))
+                midID = [item for item in callConnection(self.confir, my_query)]
+                print(midID)
+                if midID:
+                    midID = midID[0]
+                    print('all get the folder than '+str(midID))
+
+                    fileID = dr.upload(statement, str(date.date()), midID[3])
+                    print("This is my file" +fileID)
+                    if fileID:
+                        ins = "INSERT into notifyStatement({}) Values('{}')".format("`mid`,`date`,`fileID`,`folderID`", "','".join([mid[0], str(currentdate), fileID, folderID]))
+                        print(ins)
+                        if callConnection(self.confir, ins):
+                            sect['success'] ={'MID':mid, 'date':str(currentdate), 'fileID':fileID, 'folderID':midID[3]}
+
+                    else:
+                        respo = "The current month does not exist yet for {}".format(mid[0])
+                        print(respo)
+                        sect['error'] = respo
+
+                else:
+                    print("creating the folder from :"+str(mid[0]) , folderID)
+                    midID = dr.createFolder(str(mid[0]), folderID)
+                    print("This is my mid :"+midID)
+                    name = '{}.pdf'.format(str(date.date()))
+                    fileID = dr.upload(statement, name, midID)
+                    print("This is my file :" +fileID)
+                    if fileID:
+                        ins = "INSERT into notifyStatement({}) Values('{}')".format("`mid`,`date`,`fileID`,`folderID`", "','".join([mid[0], str(currentdate), fileID, midID]))
+                        print(ins)
+                        if callConnection(self.confir, ins):
+                            sect['success'] ={'MID':mid, 'date':str(currentdate), 'fileID':fileID, 'folderID':midID}
+
+                    else:
+                        respo = "The current month does not exist yet for {}".format(mid[0])
+                        print(respo)
+                        sect['error'] = respo
+
+            else:
+                fileID = [str(i) for i in list(fileID[0])]
+                sect['success']  = dict(zip(headers,fileID))
+        except:
+            print(sys.exc_info())
+            sect['error'] = sys.exc_info()
+            raise
+
+        return sect
 
     @manage_firstdata
     def parse_csv(self):
+        mn = Main()
         for file in os.listdir("pdf"):
             open_file = os.path.join(dwn, file)
             #print(open_file)
@@ -145,8 +213,8 @@ class Main(object):
 
                 elif "adjustments/chargebacks" in line and 'adjustments_chargebacks' not in my_statement_dict:
                     adjustments_chargebacks = i
-                    print(adjustments_chargebacks)
-                    print(my_file[adjustments_chargebacks+6])
+                    #print(adjustments_chargebacks)
+                    #print(my_file[adjustments_chargebacks+6])
                     my_statement_dict['adjustments_chargebacks'] = str(my_file[adjustments_chargebacks+6])
 
                 elif "fees charged" in line and 'fees_charged' not in my_statement_dict:
@@ -174,13 +242,13 @@ class Main(object):
 
             if float(to_cent(my_statement_dict['amount_submitted'])) > 0:
                 sum_by_card = my_file[summary_card_type+3:batch_fund]
-                print(sum_by_card)
+                #print(sum_by_card)
                 ticket_loc = sum_by_card.index('items')
                 sum_by_card = sum_by_card[:ticket_loc] + [0] + sum_by_card[ticket_loc:]
                 z = ['amount', 'ticket', 'average','items', 'total gross sales you submitted', 'refunds', 'total amount you submitted', 'card type']
                 sum_by_card = [x for x in sum_by_card if x not in z]
                 six_by = [item for item in chunks(sum_by_card, 7)]
-                print(six_by)
+                #print(six_by)
                 six_headers = six_by.pop(0)
                 my_panda = pd.DataFrame(six_by, columns=six_headers, index=['avg_ticket','gross_sale_items','gross_sale_amt', 'refund_items', 'refund_amount', 'total_amount'])
                 my_statement_dict['summary_card_type'] = my_panda
@@ -202,7 +270,7 @@ class Main(object):
                 my_panda = pd.DataFrame(six_by, columns=six_headers, index=['batch_number','sub_amt','third_party_trans', 'adj_charge', 'fees_charge', 'funded_amt'])
                 my_statement_dict['amt_fnd_btch'] = my_panda
 
-                print(my_statement_dict['summary_card_type'])
+                #print(my_statement_dict['summary_card_type'])
 
                 #print(my_panda)
                 #print(my_statement_dict)
@@ -210,7 +278,7 @@ class Main(object):
 
                 my_statement_dict['summary_card_type'] = my_statement_dict['summary_card_type'].transpose()
                 my_statement_dict['summary_card_type']['gross_sale_items'] = my_statement_dict['summary_card_type']['gross_sale_items'].apply(to_int)
-                print(my_statement_dict['summary_card_type']['gross_sale_items'])
+                #print(my_statement_dict['summary_card_type']['gross_sale_items'])
                 lst.append(my_statement_dict['summary_card_type']['gross_sale_items'].sum())
 
                 my_statement_dict['summary_card_type']['gross_sale_amt'] = my_statement_dict['summary_card_type']['gross_sale_amt'].apply(to_cent)
@@ -234,12 +302,16 @@ class Main(object):
             insert_lst = "','".join(map(str, lst))
             insert_me = "insert into firstdata_statement(`{}`) VALUES('{}')".format(headers, insert_lst)
 
-            print(insert_me)
+            #print(insert_me)
+            print(my_statement_dict)
+            moved_pdf = 'done/{}{}.pdf'.format(str(my_statement_dict['proccessing_date'].date()),str(my_statement_dict['mid']))
+            moved_pdf = os.path.join(direct, moved_pdf)
+            #if callConnection(self.confir, insert_me):
+            shutil.move(open_file, moved_pdf)
+            mn.get_ID([my_statement_dict['mid']], my_statement_dict['proccessing_date'], moved_pdf)
 
-            if callConnection(self.confir, insert_me):
-                shutil.move(open_file, 'done/'+str(my_statement_dict['proccessing_date'].date())+str(my_statement_dict['mid'])+'.pdf')
-            else:
-                print('Failed to insert the value')
+            #else:
+            #    print('Failed to insert the value')
             #    insert_me = 'insert into chargebacks(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
 
     def getstatement(self):
