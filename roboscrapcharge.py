@@ -21,6 +21,7 @@ firstdata = {
     'password': '!GrKDb04gioSVQ*A2c$2',
     'database': 'firstdata',
 }
+
 card_dict = {
     'vi':'Visa',
     'ae':'Amex',

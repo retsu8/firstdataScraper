@@ -3,6 +3,8 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from pyvirtualdisplay import Display
+from driver_builder import DriverBuilder
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
@@ -316,13 +318,12 @@ class Main(object):
 
     def getstatement(self):
         ###Setup options for chrome web browser
-        options = webdriver.ChromeOptions()
-        options.binary_location = '/usr/bin/google-chrome'
-        prefs = {"download.default_directory" : dwn, "Page.setDownloadBehavior": {"behavior" : "allow", "downloadPath": dwn}}
-        options.add_experimental_option('prefs', prefs)
-        #options.add_argument('headless')
-        options.add_argument('window-size=1200x600')
-        browser = webdriver.Chrome(chrome_options=options)
+        display = Display(visible=0, size=(800, 600))
+        display.start()
+
+        driver_builder = DriverBuilder()
+        browser = driver_builder.get_driver(dwn, headless=False)
+
         browser.get('https://www.youraccessone.com')
 
         username = browser.find_element_by_id("txtUserName")
@@ -332,9 +333,19 @@ class Main(object):
         password.send_keys(os.environ['password'])
 
         browser.find_element_by_name("uxLogin").click()
-
         ###go to chargebacks
         browser.get('https://www.youraccessone.com/64_rpt_Statements.aspx')
+
+        #open filter
+        browser.find_element_by_xpath("//*[text()='FILTER']").click()
+
+        #check all merchants
+        browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00").click()
+        time.sleep(2)
+        browser.find_element_by_xpath("//*[text()='SYS']").click()
+
+        #submit to apply filters
+        browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_btSubmit").click()
 
         time.sleep(5)
 
@@ -357,6 +368,9 @@ class Main(object):
                         alert.accept()
                     except:
                         print(sys.exc_info)
+                list_of_files = glob.glob(./pdf/*.pdf)
+                latest_file = max(list_of_files, key=os.path.getctime)
+                print(latest_file)
 
             try:
                 browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').click()
@@ -364,7 +378,8 @@ class Main(object):
                 print(sys.exc_info())
             time.sleep(5)
 
-        browser.close();
+        browser.quit()
+        display.close()
 
 if __name__ == '__main__':
     arv = sys.argv
