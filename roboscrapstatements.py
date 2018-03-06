@@ -380,7 +380,7 @@ class Main(object):
                         alert.accept()
                     except:
                         print(sys.exc_info)
-                list_of_files = [f for f in os.listdir(mypath) if os.isfile(join(dwn, f))]
+                list_of_files = [f for f in os.listdir(dwn) if os.isfile(join(dwn, f))]
                 latest_file = max(list_of_files, key=os.path.getctime)
                 print(latest_file)
 
