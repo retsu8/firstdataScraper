@@ -380,16 +380,16 @@ class Main(object):
                         alert.accept()
                     except:
                         print(sys.exc_info)
-                list_of_files = [f for f in os.listdir(dwn) if os.isfile(join(dwn, f))]
-                latest_file = max(list_of_files, key=os.path.getctime)
-                print(latest_file)
-
             try:
                 browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').click()
             except:
                 print(sys.exc_info())
             time.sleep(5)
 
+        list_of_files = [f for f in os.listdir(dwn) if os.isfile(join(dwn, f))]
+        latest_file = max(list_of_files, key=os.path.getctime)
+        print(latest_file)
+        
         browser.quit()
         display.close()
 
