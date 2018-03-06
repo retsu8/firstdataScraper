@@ -1,4 +1,4 @@
-import time, sys, os, csv, shutil, re, math
+import time, sys, os, csv, shutil, re, math, glob
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -95,6 +95,18 @@ def to_cent(x):
 def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>')
   return re.sub(cleanr, '', raw_html)
+
+ def empty_folder(folder=dwn):
+     for the_file in os.listdir(folder):
+         file_path = os.path.join(folder, the_file)
+         try:
+             if os.path.isfile(file_path):
+                 os.unlink(file_path)
+             #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+         except Exception as e:
+             print(e)
+             return False
+    return True
 
 def manage_firstdata(method):
     def decorated_method(self, *args, **kwargs):
@@ -386,6 +398,7 @@ if __name__ == '__main__':
     print(arv)
     mn = Main()
     if '-r' in arv:
+        empty_folder(dwn)
         mn.getstatement()
     if '-p' in arv:
         mn.parse_csv()
