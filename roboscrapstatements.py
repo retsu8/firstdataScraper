@@ -316,17 +316,14 @@ class Main(object):
             insert_lst = "','".join(map(str, lst))
             insert_me = "insert into firstdata_statement(`{}`) VALUES('{}')".format(headers, insert_lst)
 
-            #print(insert_me)
-            print(my_statement_dict)
             moved_pdf = 'done/{}{}.pdf'.format(str(my_statement_dict['proccessing_date'].date()),str(my_statement_dict['mid']))
             moved_pdf = os.path.join(direct, moved_pdf)
-            #if callConnection(self.confir, insert_me):
-            shutil.move(open_file, moved_pdf)
-            mn.get_ID([my_statement_dict['mid']], my_statement_dict['proccessing_date'], moved_pdf)
+            if callConnection(self.confir, insert_me):
+                shutil.move(open_file, moved_pdf)
+                mn.get_ID([my_statement_dict['mid']], my_statement_dict['proccessing_date'], moved_pdf)
 
-            #else:
-            #    print('Failed to insert the value')
-            #    insert_me = 'insert into chargebacks(`{}`) VALUES("{}") ON DUPLICATE KEY UPDATE {}'.format(headers, update, str_update)
+            else:
+                print('Failed to insert the value, I already exists {}'.format(sys.exc_info))
 
     def getstatement(self):
         ###Setup options for chrome web browser
@@ -389,7 +386,7 @@ class Main(object):
         list_of_files = [f for f in os.listdir(dwn) if os.isfile(join(dwn, f))]
         latest_file = max(list_of_files, key=os.path.getctime)
         print(latest_file)
-        
+
         browser.quit()
         display.close()
 
