@@ -4,11 +4,11 @@ Converts PDF text content (though not images containing text) to plain text, htm
 import sys
 import logging
 import six
-import pdfminer3k.settings
-pdfminer3k.settings.STRICT = False
-import pdfminer3k.high_level
-import pdfminer3k.layout
-from pdfminer3k.image import ImageWriter
+import pdfminer.settings
+pdfminer.settings.STRICT = False
+import pdfminer.high_level
+import pdfminer.layout
+from pdfminer.image import ImageWriter
 
 
 def extract_text(files=[], outfile='-',
@@ -27,7 +27,7 @@ def extract_text(files=[], outfile='-',
     # If any LAParams group arguments were passed, create an LAParams object and
     # populate with given args. Otherwise, set it to None.
     if not no_laparams:
-        laparams = pdfminer3k.layout.LAParams()
+        laparams = pdfminer.layout.LAParams()
         for param in ("all_texts", "detect_vertical", "word_margin", "char_margin", "line_margin", "boxes_flow"):
             paramv = locals().get(param, None)
             if paramv is not None:
@@ -57,7 +57,7 @@ def extract_text(files=[], outfile='-',
 
     for fname in files:
         with open(fname, "rb") as fp:
-            pdfminer3k.high_level.extract_text_to_fp(fp, **locals())
+            pdfminer.high_level.extract_text_to_fp(fp, **locals())
     return outfp
 
 # main
