@@ -96,7 +96,7 @@ def cleanhtml(raw_html):
   cleanr = re.compile('<.*?>')
   return re.sub(cleanr, '', raw_html)
 
- def empty_folder(folder):
+def empty_folder(folder):
     for the_file in os.listdir(folder):
         file_path = os.path.join(folder, the_file)
         try:
