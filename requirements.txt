@@ -4,9 +4,11 @@ beautifulsoup4==4.6.0
 bs4==0.0.1
 certifi==2018.1.18
 chardet==3.0.4
+EasyProcess==0.2.3
 google-api-python-client==1.6.5
 httplib2==0.10.3
 idna==2.6
+lxml==4.1.1
 numpy==1.14.0
 oauth2client==4.1.2
 panda==0.3.1
@@ -23,6 +25,7 @@ PyMySQL==0.8.0
 pytest==3.4.0
 python-dateutil==2.6.1
 pytz==2017.3
+PyVirtualDisplay==0.2.1
 requests==2.18.4
 rsa==3.4.2
 selenium==3.9.0
@@ -31,3 +34,4 @@ SQLAlchemy==1.2.2
 tabula-py==1.0.0
 uritemplate==3.0.0
 urllib3==1.22
+wget==3.2
