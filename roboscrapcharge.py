@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from pyvirtualdisplay import Display
+from driver_builder import DriverBuilder
 from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL

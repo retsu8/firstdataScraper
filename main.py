@@ -1,4 +1,3 @@
-from roboscraptran import Main as rt
 from roboscraptran_server import Main as rts
 from roboscrapcharge import Main as rc
 from roboscrapstatements import Main as rs
@@ -9,9 +8,6 @@ if __name__ == '__main__':
     arv = sys.argv
     print(arv)
     if 'all' in arv:
-        #rt_self = rt()
-        #rt_self.gettransactions()
-        #rt_self.parse_csv()
 
         rts_self = rts()
         rts_self.gettransactions()
