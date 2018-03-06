@@ -1,9 +1,10 @@
-import time, sys, os, csv, shutil, datetime, string, requests
+import time, sys, os, csv, shutil, datetime, string, requests, urllib, glob
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from bs4 import BeautifulSoup
+from pyvirtualdisplay import Display
+from driver_builder import DriverBuilder
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
 from random import choice, randint
@@ -20,7 +21,7 @@ firstdata = {
     'username': 'merch_admin',
     'password': '!GrKDb04gioSVQ*A2c$2',
     'database': 'firstdata',
-    'query':{'local_infile':1},
+    'query':{'local_infile':1, 'ssl_ca':'./rds-combined-ca-bundle.pem'},
 }
 
 card_dict = {
@@ -109,6 +110,16 @@ def callConnection(conn, sql):
         trans.rollback()  # this rolls back the transaction unconditionally
         raise
     return inst
+
+def buildhttps(login, username, password):
+    request = urllib.request
+    cj = CookieJar()
+    opener = request.build_opener(request.HTTPCookieProcessor(cj))
+    values = {'username': username, 'password': password}
+    data = urllib.parse.urlencode(values).encode("utf-8")
+    response = opener.open(login, data)
+    request.install_opener(opener)
+    return opener
 
 def manage_firstdata(method):
     def decorated_method(self, *args, **kwargs):
@@ -216,13 +227,11 @@ class Main(object):
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""
-        options = webdriver.ChromeOptions()
-        options.binary_location = '/usr/bin/google-chrome'
-        prefs = {"download.default_directory" : dwn, "Page.setDownloadBehavior": {"behavior" : "allow", "downloadPath": dwn}}
-        options.add_experimental_option('prefs', prefs)
-        #options.add_argument('headless')
-        options.add_argument('window-size=1200x600')
-        browser = webdriver.Chrome(chrome_options=options)
+        display = Display(visible=0, size=(800, 600))
+        display.start()
+
+        driver_builder = DriverBuilder()
+        browser = driver_builder.get_driver(dwn, headless=False)
 
         browser.get('https://www.youraccessone.com')
 
@@ -258,14 +267,24 @@ class Main(object):
         time.sleep(10)
 
         #download transaction
+        count = 0
         element_to_hover_over = browser.find_element_by_xpath("//*[text()='EXPORT']")
         hover = ActionChains(browser).move_to_element(element_to_hover_over)
         hover.perform()
 
         browser.find_element_by_xpath("//*[text()='CSV']").click()
-        time.sleep(5)
+        time.sleep(2)
 
-        browser.close();
+        for file in os.listdir("csv"):
+            my_file = os.path.join(dwn, file)
+            if file.endswith(".csv"):
+                fileObject = csv.reader(my_file)
+                row_count = sum(1 for row in fileObject)
+                if row_count > 1:
+                    break
+
+        browser.quit()
+        display.stop()
 
 if __name__ == '__main__':
     arv = sys.argv

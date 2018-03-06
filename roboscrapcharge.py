@@ -156,13 +156,12 @@ class Main(object):
 
     def getchargeback(self):
         ###Setup options for chrome web browser
-        options = webdriver.ChromeOptions()
-        options.binary_location = '/usr/bin/google-chrome'
-        prefs = {"download.default_directory" : dwn, "Page.setDownloadBehavior": {"behavior" : "allow", "downloadPath": dwn}}
-        options.add_experimental_option('prefs', prefs)
-        #options.add_argument('headless')
-        options.add_argument('window-size=1200x600')
-        browser = webdriver.Chrome(chrome_options=options)
+        display = Display(visible=0, size=(800, 600))
+        display.start()
+
+        driver_builder = DriverBuilder()
+        browser = driver_builder.get_driver(dwn, headless=False)
+
         browser.get('https://www.youraccessone.com')
 
         username = browser.find_element_by_id("txtUserName")
@@ -235,7 +234,8 @@ class Main(object):
                 except:
                     break
 
-        browser.close();
+        browser.quit()
+        display.stop()
 
 if __name__ == '__main__':
     arv = sys.argv
