@@ -383,10 +383,6 @@ class Main(object):
                 print(sys.exc_info())
             time.sleep(5)
 
-        list_of_files = [f for f in os.listdir(dwn) if os.isfile(join(dwn, f))]
-        latest_file = max(list_of_files, key=os.path.getctime)
-        print(latest_file)
-
         browser.quit()
         display.close()
 

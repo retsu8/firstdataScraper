@@ -17,9 +17,9 @@ if __name__ == '__main__':
         rc_self.getchargeback()
         rc_self.parse_csv()
 
-        #rs_self = rs()
-        #rs_self.getstatement()
-        #rs_self.parse_csv()
+        rs_self = rs()
+        rs_self.getstatement()
+        rs_self.parse_csv()
 
     else:
         print("all 'autorun all'")
