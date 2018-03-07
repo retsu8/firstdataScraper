@@ -323,6 +323,7 @@ class Main(object):
                 mn.get_ID([my_statement_dict['mid']], my_statement_dict['proccessing_date'], moved_pdf)
 
             else:
+                os.remove(open_file)
                 print('Failed to insert the value, I already exists {}'.format(sys.exc_info))
 
     def getstatement(self):
