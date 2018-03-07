@@ -318,12 +318,11 @@ class Main(object):
 
             moved_pdf = 'done/{}{}.pdf'.format(str(my_statement_dict['proccessing_date'].date()),str(my_statement_dict['mid']))
             moved_pdf = os.path.join(direct, moved_pdf)
+            shutil.move(open_file, moved_pdf)
             if callConnection(self.confir, insert_me):
-                shutil.move(open_file, moved_pdf)
                 mn.get_ID([my_statement_dict['mid']], my_statement_dict['proccessing_date'], moved_pdf)
 
             else:
-                os.remove(open_file)
                 print('Failed to insert the value, I already exists {}'.format(sys.exc_info))
 
     def getstatement(self):
