@@ -6,6 +6,8 @@ import shutil
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
+from selenium.common.exceptions import UnexpectedAlertPresentException
+from selenium.webdriver.common.action_chains import ActionChains
 from decimal import Decimal, getcontext
 
 direct = os.getcwd()
@@ -92,7 +94,6 @@ def manage_firstdata(method):
 
 
 class Main(object):
-
     @manage_firstdata
     def parse_csv(self):
         """Parse the given csv"""
@@ -186,15 +187,15 @@ class Main(object):
     def getchargeback(self):
         from selenium import webdriver
         from selenium.webdriver.common.keys import Keys
-        from selenium.webdriver.common.action_chains import ActionChains
         from pyvirtualdisplay import Display
         from driver_builder import DriverBuilder
         """Setup options for chrome web browser"""
-        display = Display(visible=0, size=(800, 600))
-        display.start()
+        #display = Display(visible=0, size=(800, 600))
+        #display.start()
 
         driver_builder = DriverBuilder()
-        browser = driver_builder.get_driver(dwn, headless=False)
+        self.browser = driver_builder.get_driver(dwn, headless=False)
+        browser = self.browser
 
         browser.get('https://www.youraccessone.com')
 
@@ -240,13 +241,29 @@ class Main(object):
 
         while True:
             table_id = browser.find_element_by_class_name("rgMasterTable")
-            for row in table_id.find_elements_by_class_name("rgRow"):
-                print(row)
-                cell = [
-                    item for item in row.find_elements_by_css_selector("td")][0]
+            for i in range(0,10):
+                mn.get_pdf_row(i, table_id)
+
+            enabl = browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton')
+            print(enabl.is_enabled())
+            if enabl.is_enabled():
+                enabl.click()
+            else:
+                break
+                time.sleep(5)
+
+        browser.quit()
+        #display.stop()
+
+    def get_pdf_row(self, i, table_id):
+        get_me="ctl00_ContentPage_uxReportGrid_ctl00__{}".format(i)
+        print(get_me)
+        browser = self.browser
+        try:
+            for row in table_id.find_elements_by_id(get_me):
+                cell = [item for item in row.find_elements_by_css_selector("td")][0]
                 click_me = "//*[text()='{}']".format(cell.text)
-                print(click_me)
-                browser.find_element_by_xpath(click_me).click()
+                row.find_element_by_xpath(click_me).click()
 
                 """go to new window"""
                 window_after = browser.window_handles[1]
@@ -267,17 +284,11 @@ class Main(object):
                 browser.close()
                 print(browser.window_handles)
                 browser.switch_to.window(browser.window_handles[0])
-
-            enabl = browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton')
-            if enabl.is_enabled:
-                enabl.click()
-            else:
-                break
-                time.sleep(5)
-
-        browser.quit()
-        display.stop()
-
+        except UnexpectedAlertPresentException:
+            alert = self.browser.switch_to.alert
+            alert.accept()
+            return 0
+        return 1
 
 if __name__ == '__main__':
     import argparse
