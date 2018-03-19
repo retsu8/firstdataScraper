@@ -190,8 +190,8 @@ class Main(object):
         from pyvirtualdisplay import Display
         from driver_builder import DriverBuilder
         """Setup options for chrome web browser"""
-        #display = Display(visible=0, size=(800, 600))
-        #display.start()
+        display = Display(visible=0, size=(800, 600))
+        display.start()
 
         driver_builder = DriverBuilder()
         self.browser = driver_builder.get_driver(dwn, headless=False)
@@ -253,7 +253,7 @@ class Main(object):
                 time.sleep(5)
 
         browser.quit()
-        #display.stop()
+        display.stop()
 
     def get_pdf_row(self, i, table_id):
         get_me="ctl00_ContentPage_uxReportGrid_ctl00__{}".format(i)
