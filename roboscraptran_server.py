@@ -1,14 +1,15 @@
-import time
-import sys
-import os
+import argparse
 import csv
-import shutil
 import datetime
-import string
-import requests
-import urllib
 import glob
+import os
 import pandas as pd
+import requests
+import shutil
+import string
+import sys
+import time
+import urllib
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -60,10 +61,6 @@ def firstConn():
     firsty = create_engine(URL(**firstdata), strategy='threadlocal')
     firsty.echo = False
     return firsty
-
-
-def to_int(x):
-    return int(x)
 
 
 def to_cent(x):
@@ -301,7 +298,8 @@ class Main(object):
         browser.find_element_by_xpath("//*[text()='Daily']").click()
 
         # check all merchants
-        browser.find_element_by_id("ctl00_ContentPage_uxHierarchyList_Input").click()
+        browser.find_element_by_id(
+            "ctl00_ContentPage_uxHierarchyList_Input").click()
         time.sleep(2)
         browser.find_element_by_xpath("//*[text()='SYS']").click()
 
