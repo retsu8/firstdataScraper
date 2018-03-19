@@ -31,9 +31,9 @@ class DriverBuilder():
             chrome_options.add_argument("--headless")
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        chrome_options.binary_location = '/usr/bin/google-chrome'
+        loc = os.path.join(dir_path, 'chromedriver')
 
-        driver = Chrome(chrome_options=chrome_options)
+        driver = Chrome(loc, chrome_options=chrome_options)
 
         if headless:
             self.enable_download_in_headless_chrome(driver, download_location)

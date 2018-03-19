@@ -267,11 +267,12 @@ class Main(object):
                 browser.close()
                 print(browser.window_handles)
                 browser.switch_to.window(browser.window_handles[0])
-                if browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').is_enabled:
-                    browser.find_element_by_name(
-                        'ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton').click()
-                else:
-                    break
+
+            enabl = browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton')
+            if enabl.is_enabled:
+                enabl.click()
+            else:
+                break
                 time.sleep(5)
 
         browser.quit()
