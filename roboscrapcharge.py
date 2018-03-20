@@ -189,6 +189,7 @@ class Main(object):
         from selenium.webdriver.common.keys import Keys
         from pyvirtualdisplay import Display
         from driver_builder import DriverBuilder
+        from selenium.common.exceptions import NoSuchElementException
         """Setup options for chrome web browser"""
         display = Display(visible=0, size=(800, 600))
         display.start()
@@ -244,13 +245,16 @@ class Main(object):
             for i in range(0,10):
                 mn.get_pdf_row(i, table_id)
 
-            enabl = browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton')
-            print(enabl.is_enabled())
-            if enabl.is_enabled():
-                enabl.click()
-            else:
+            try:
+                enabl = browser.find_element_by_name('ctl00$ContentPage$uxReportGrid$ctl00$ctl03$ctl01$ctl00$pagerNextButton')
+                print(enabl.is_enabled())
+                if enabl.is_enabled():
+                    enabl.click()
+                else:
+                    break
+                    time.sleep(5)
+            except NoSuchElementException:
                 break
-                time.sleep(5)
 
         browser.quit()
         display.stop()
