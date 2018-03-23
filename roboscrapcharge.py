@@ -60,11 +60,6 @@ def to_type(x):
     else:
         return 'Other'
 
-
-def to_int(x):
-    return int(x)
-
-
 def to_cent(x):
     getcontext().prec = 6
     y = str(x)
@@ -94,6 +89,7 @@ def manage_firstdata(method):
 
 
 class Main(object):
+    """Main class object"""
     @manage_firstdata
     def parse_csv(self):
         """Parse the given csv"""
@@ -185,12 +181,13 @@ class Main(object):
             shutil.move(my_file, locy)
 
     def getchargeback(self):
+        """Setup options for chrome web browser"""
         from selenium import webdriver
         from selenium.webdriver.common.keys import Keys
         from pyvirtualdisplay import Display
         from driver_builder import DriverBuilder
         from selenium.common.exceptions import NoSuchElementException
-        """Setup options for chrome web browser"""
+        
         display = Display(visible=0, size=(800, 600))
         display.start()
 
