@@ -245,13 +245,12 @@ class Main(object):
 
         """check all merchants"""
 
-        # fill in the field
-        browser.find_element_by_id(
-            "ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00_Input").click()
-        time.sleep(2)
-        browser.find_element_by_xpath("//*[text()='Merchant Number']").click()
-
         for item in mid_to_search:
+            # fill in the field
+            browser.find_element_by_id(
+                "ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00_Input").click()
+            time.sleep(2)
+            browser.find_element_by_xpath("//*[text()='Merchant Number']").click()
             text_box = browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_inMERCHANTNUMBER")
             text_box.clear()
             text_box.send_keys(item)
