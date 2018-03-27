@@ -187,7 +187,7 @@ class Main(object):
         from pyvirtualdisplay import Display
         from driver_builder import DriverBuilder
         from selenium.common.exceptions import NoSuchElementException
-        
+
         display = Display(visible=0, size=(800, 600))
         display.start()
 
@@ -218,11 +218,11 @@ class Main(object):
         """get date range"""
         """start = browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxDateRangeFrom_dateInput")
         start.clear()
-        start.send_keys('02-01-2016')
+        start.send_keys('03-24-2018')
 
         end = browser.find_element_by_id('ctl00_ContentPage_uxFiltering_uxDateRangeTo_dateInput')
         end.clear()
-        end.send_keys('01-23-2018')"""
+        end.send_keys('03-26-2018')"""
 
         """check all merchants"""
         browser.find_element_by_id(

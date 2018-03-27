@@ -231,17 +231,17 @@ class Main(object):
         browser.find_element_by_xpath("//*[text()='FILTER']").click()
 
         """toggle daily"""
-        browser.find_element_by_xpath("//*[text()='Daily']").click()
+        #browser.find_element_by_xpath("//*[text()='Daily']").click()
 
         """This section for date range not currently used change Daily to Date Range then uncomment"""
         """get date range"""
-        """start = browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_dpFromDate_dateInput")
+        start = browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_dpFromDate_dateInput")
         start.clear()
-        start.send_keys('03-01-2016')
+        start.send_keys('03-24-2016')
 
         end = browser.find_element_by_id('ctl00_ContentPage_uxFiltering_uxReportFilter_dpToDate_dateInput')
         end.clear()
-        end.send_keys('03-21-2018')"""
+        end.send_keys('03-26-2018')
 
         """check all merchants"""
 
