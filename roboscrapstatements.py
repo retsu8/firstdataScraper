@@ -457,7 +457,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-r", "--run", help="Run the selenium script to grab csv", action="store_true", default=False)
     parser.add_argument("-p", "--parse", help="Parse the csv", action="store_true", default=False)
+    parser.add_argument("-d", "--date", help="Check the date to see if statements need to run", action="store_true", default=False)
     args = parser.parse_args()
+    if args.date:
+        if 5 < now.day:
+            sys.exit()
     if args.run:
         mn.getstatement()
     if args.parse:
