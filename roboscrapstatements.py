@@ -406,6 +406,7 @@ class Main(object):
         from driver_builder import DriverBuilder
 
         """Setup options for chrome web browser"""
+        mn = Main()
         mid_to_search = mn.get_mid_search()
         display = Display(visible=0, size=(800, 600))
         display.start()
