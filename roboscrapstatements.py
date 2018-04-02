@@ -464,6 +464,7 @@ class Main(object):
 
 
 if __name__ == '__main__':
+    import argparse
     mn = Main()
     parser = argparse.ArgumentParser()
     parser.add_argument("-r", "--run", help="Run the selenium script to grab csv", action='store_true', default=False)

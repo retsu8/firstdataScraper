@@ -298,14 +298,12 @@ class Main(object):
         browser.find_element_by_xpath("//*[text()='Daily']").click()
 
         # check all merchants
-        browser.find_element_by_id(
-            "ctl00_ContentPage_uxHierarchyList_Input").click()
+        browser.find_element_by_id("ctl00_ContentPage_uxHierarchyList_Input").click()
         time.sleep(2)
         browser.find_element_by_xpath("//*[text()='SYS']").click()
 
         # fill in the field
-        my_sys = browser.find_element_by_name(
-            "ctl00$ContentPage$uxEntityValue")
+        my_sys = browser.find_element_by_name("ctl00$ContentPage$uxEntityValue")
         my_sys.send_keys('1261')
 
         # submit to apply filters
