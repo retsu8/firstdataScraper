@@ -1,3 +1,5 @@
+#! env/bin/python
+
 import argparse
 import csv
 import datetime
@@ -198,8 +200,7 @@ class Main(object):
                                          'Trans Code': 'tran-type', 'Country Code': 'country-code', 'Card Type': 'card-type', 'Card #': 'card-number', 'Auth #': 'auth-code', 'Trans Amount': 'amount', 'Terminal #': 'reference-number'}, inplace=True)
                 my_panda = my_panda.fillna(0)
 
-                my_date = str(
-                    my_panda.iloc[0]['processing-date']).replace('/', '-')
+                my_date = str(my_panda.iloc[0]['processing-date']).replace('/', '-')
                 my_panda['card-type'] = my_panda['card-type'].apply(to_type)
                 my_panda['country-code'] = my_panda['country-code'].apply(
                     to_countrycode)
@@ -267,7 +268,11 @@ class Main(object):
             # os.remove(str(my_file)+'_panda.csv')
             if not os.path.exists('done'):
                 os.makedirs('done')
-            shutil.move(my_file, 'done/' + str(my_date) + 'tran.csv')
+            try:
+                shutil.move(my_file, 'done/' + str(my_date) + 'tran.csv')
+            except UnboundLocalError:
+                os.remove(my_file)
+                continue
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""
@@ -287,7 +292,7 @@ class Main(object):
 
         browser.find_element_by_name("uxLogin").click()
 
-        # go to chargebacks
+        # go to transactions
         browser.get(
             'https://www.youraccessone.com/64_rpt_TransactionSearch.aspx')
 
