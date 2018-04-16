@@ -275,10 +275,9 @@ class Main(object):
             except UnboundLocalError:
                 os.remove(my_file)
                 continue
-                
+
         if i == 0 and not os.listdir("csv") and server:
             print("nothing processed lets retry")
-            sys.exit()
             mn = Main()
             mn.gettransactions()
             mn.parse_csv(True)
