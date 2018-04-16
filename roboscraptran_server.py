@@ -271,16 +271,17 @@ class Main(object):
                 os.makedirs('done')
             try:
                 shutil.move(my_file, 'done/' + str(my_date) + 'tran.csv')
-                i++
+                i += 1
             except UnboundLocalError:
                 os.remove(my_file)
                 continue
-        if i == 0:
-            if os.listdir("csv")=="" and server:
-                print("nothing processed lets retry")
-                mn = Main()
-                mn.gettransactions()
-                mn.parse_csv(True)
+                
+        if i == 0 and not os.listdir("csv") and server:
+            print("nothing processed lets retry")
+            sys.exit()
+            mn = Main()
+            mn.gettransactions()
+            mn.parse_csv(True)
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""
