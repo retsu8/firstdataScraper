@@ -180,8 +180,9 @@ def callConnection(conn, sql):
 class Main(object):
 
     @manage_firstdata
-    def parse_csv(self):
+    def parse_csv(self, server):
         """Parse the csv pulled from the transactions table"""
+        i = 0
         for file in os.listdir("csv"):
             my_file = os.path.join(dwn, file)
             if file.endswith(".csv") and '_panda' not in my_file:
@@ -270,9 +271,16 @@ class Main(object):
                 os.makedirs('done')
             try:
                 shutil.move(my_file, 'done/' + str(my_date) + 'tran.csv')
+                i++
             except UnboundLocalError:
                 os.remove(my_file)
                 continue
+        if i == 0:
+            if os.listdir("csv")=="" and server:
+                print("nothing processed lets retry")
+                mn = Main()
+                mn.gettransactions()
+                mn.parse_csv(True)
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""
@@ -345,8 +353,10 @@ if __name__ == '__main__':
                         action='store_true', default=False)
     parser.add_argument("-p", "--parse", help="Parse the csv",
                         action='store_true', default=False)
+    parser.add_argument("-s", "--server", help="Run as server",
+                        action='store_true', default=False)
     args = parser.parse_args()
     if args.run:
         mn.gettransactions()
     if args.parse:
-        mn.parse_csv()
+        mn.parse_csv(args.server)
