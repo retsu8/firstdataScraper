@@ -218,11 +218,11 @@ class Main(object):
         """get date range"""
         """start = browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxDateRangeFrom_dateInput")
         start.clear()
-        start.send_keys('03-24-2018')
+        start.send_keys('01-01-2018')
 
         end = browser.find_element_by_id('ctl00_ContentPage_uxFiltering_uxDateRangeTo_dateInput')
         end.clear()
-        end.send_keys('03-26-2018')"""
+        end.send_keys('05-01-2018')"""
 
         """check all merchants"""
         browser.find_element_by_id(
@@ -232,12 +232,13 @@ class Main(object):
         browser.find_element_by_id(
             "ctl00_ContentPage_uxFiltering_uxbtnDisplayRunReport").click()
 
-        time.sleep(10)
+        time.sleep(5)
 
         window_before = browser.window_handles[0]
         print(browser.title)
 
         while True:
+            time.sleep(3)
             table_id = browser.find_element_by_class_name("rgMasterTable")
             for i in range(0,10):
                 mn.get_pdf_row(i, table_id)
@@ -263,8 +264,7 @@ class Main(object):
         try:
             for row in table_id.find_elements_by_id(get_me):
                 cell = [item for item in row.find_elements_by_css_selector("td")][0]
-                click_me = "//*[text()='{}']".format(cell.text)
-                row.find_element_by_xpath(click_me).click()
+                ActionChains(browser).move_to_element(cell).click().perform()
 
                 """go to new window"""
                 window_after = browser.window_handles[1]
@@ -273,10 +273,8 @@ class Main(object):
                 time.sleep(5)
 
                 """download chargeback"""
-                element_to_hover_over = browser.find_element_by_xpath(
-                    "//*[text()='EXPORT']")
-                hover = ActionChains(browser).move_to_element(
-                    element_to_hover_over)
+                element_to_hover_over = browser.find_element_by_xpath("//*[text()='EXPORT']")
+                hover = ActionChains(browser).move_to_element(element_to_hover_over)
                 hover.perform()
 
                 browser.find_element_by_xpath("//*[text()='CSV']").click()
@@ -285,6 +283,7 @@ class Main(object):
                 browser.close()
                 print(browser.window_handles)
                 browser.switch_to.window(browser.window_handles[0])
+
         except UnexpectedAlertPresentException:
             alert = self.browser.switch_to.alert
             alert.accept()

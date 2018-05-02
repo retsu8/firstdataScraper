@@ -284,8 +284,8 @@ class Main(object):
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""
-        display = Display(visible=0, size=(800, 600))
-        display.start()
+        #display = Display(visible=0, size=(800, 600))
+        #display.start()
 
         driver_builder = DriverBuilder()
         browser = driver_builder.get_driver(dwn, headless=False)
@@ -343,7 +343,7 @@ class Main(object):
                     break
 
         browser.quit()
-        display.stop()
+        #display.stop()
 
 
 if __name__ == '__main__':
