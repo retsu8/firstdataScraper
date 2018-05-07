@@ -188,8 +188,7 @@ class Main(object):
             if file.endswith(".csv") and '_panda' not in my_file:
                 print(my_file)
                 try:
-                    my_panda = pd.read_csv(my_file, header=1, parse_dates=[
-                                           4, 5], infer_datetime_format=True, encoding='utf-8')
+                    my_panda = pd.read_csv(my_file, header=1, parse_dates=[4, 5], infer_datetime_format=True, encoding='latin1')
                 except pd.errors.ParserError:
                     print('invalid file')
                     os.unlink(my_file)

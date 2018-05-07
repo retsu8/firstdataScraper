@@ -259,20 +259,17 @@ class Main(object):
                 elif "amounts submitted" in line and "amount_submitted" not in my_statement_dict:
                     sec_amt_submit = True
                     amount_submitted = i
-                    my_statement_dict["amount_submitted"] = str(
-                        my_file[amount_submitted + 6])
+                    my_statement_dict["amount_submitted"] = str(my_file[amount_submitted + 6])
 
                 elif "third party transactions" in line and "third_party_transactions" not in my_statement_dict:
                     third_party_transactions = my_file.index(line)
-                    my_statement_dict["third_party_transactions"] = str(
-                        my_file[amount_submitted + 6])
+                    my_statement_dict["third_party_transactions"] = str(my_file[amount_submitted + 6])
 
                 elif "adjustments/chargebacks" in line and "adjustments_chargebacks" not in my_statement_dict:
                     adjustments_chargebacks = i
                     # print(adjustments_chargebacks)
                     # print(my_file[adjustments_chargebacks+6])
-                    my_statement_dict["adjustments_chargebacks"] = str(
-                        my_file[adjustments_chargebacks + 6])
+                    my_statement_dict["adjustments_chargebacks"] = str(my_file[adjustments_chargebacks + 6])
 
                 elif "fees charged" in line and "fees_charged" not in my_statement_dict:
                     fees_charged = i
@@ -408,8 +405,8 @@ class Main(object):
         """Setup options for chrome web browser"""
         mn = Main()
         mid_to_search = mn.get_mid_search()
-        display = Display(visible=0, size=(800, 600))
-        display.start()
+        #display = Display(visible=0, size=(800, 600))
+        #display.start()
 
         driver_builder = DriverBuilder()
         self.browser = driver_builder.get_driver(dwn, headless=False)
@@ -440,16 +437,22 @@ class Main(object):
             mid = browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_inMERCHANTNUMBER")
             mid.clear()
             mid.send_keys(item)
-            browser.find_element_by_name("ctl00$ContentPage$uxFiltering$uxReportFilter$btSubmit").click()
 
             # Click search
+            time.sleep(.5)
             try:
-                browser.find_element_by_name("ctl00$ContentPage$uxSearch").click()
+                browser.find_element_by_name("ctl00$ContentPage$uxFiltering$uxReportFilter$btSubmit").click()
+                my_val = browser.find_element_by_name("ctl00$ContentPage$uxdroplist").get_attribute("value")
+                my_val = datetime.strptime(my_val, '%m/%d/%Y')
+                now = datetime.now() - relativedelta(months=1)
+                print(my_val.month, now.month, my_val.year, now.year)
+                if my_val.month == now.month and my_val.year == now.year:
+                    browser.find_element_by_name("ctl00$ContentPage$uxSearch").click()
             except NoSuchElementException:
                 continue
 
         browser.quit()
-        display.close()
+        #display.close()
 
 if __name__ == "__main__":
     import argparse
