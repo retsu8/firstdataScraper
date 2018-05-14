@@ -282,7 +282,7 @@ class Main(object):
             mn.gettransactions()
             mn.parse_csv(True)
 
-    def gettransactions(self):
+    def gettransactions(self, count=0):
         """Get a csv from youraccessone transactions"""
         mn = Main()
         display = Display(visible=0, size=(800, 600))
@@ -335,7 +335,12 @@ class Main(object):
         try:
             browser.find_element_by_xpath("//*[text()='CSV']").click()
         except NoSuchElementException:
-            mn.gettransactions()
+            browser.quit()
+            display.stop()
+            if count >= 5:
+                sys.exit("Ran find element by CSV 5 times and still not getting a decent CSV, marking as failed, try agian later")
+            i = count + 1
+            mn.gettransactions(i)
         time.sleep(2)
 
         for file in os.listdir("csv"):
