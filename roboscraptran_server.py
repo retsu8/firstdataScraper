@@ -15,6 +15,7 @@ import urllib
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 from pyvirtualdisplay import Display
 from driver_builder import DriverBuilder
 from sqlalchemy import create_engine
@@ -283,6 +284,7 @@ class Main(object):
 
     def gettransactions(self):
         """Get a csv from youraccessone transactions"""
+        mn = Main()
         display = Display(visible=0, size=(800, 600))
         display.start()
 
@@ -330,7 +332,10 @@ class Main(object):
         hover = ActionChains(browser).move_to_element(element_to_hover_over)
         hover.perform()
 
-        browser.find_element_by_xpath("//*[text()='CSV']").click()
+        try:
+            browser.find_element_by_xpath("//*[text()='CSV']").click()
+        except NoSuchElementException:
+            mn.gettransactions()
         time.sleep(2)
 
         for file in os.listdir("csv"):

@@ -14,6 +14,7 @@ from decimal import Decimal, getcontext
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from pdf2txt import main as pd2t
+from pdfminer.pdfparser import PDFSyntaxError
 from drive import Drive
 
 direct = os.getcwd()
@@ -231,7 +232,10 @@ class Main(object):
                 continue
             open_file = os.path.join(dwn, file)
             # print(open_file)
-            pd2t([open_file, "-t", "html", "-o", "temp.html"])
+            try:
+                pd2t([open_file, "-t", "html", "-o", "temp.html"])
+            except PDFSyntaxError:
+                continue
             original = [item for item in open("temp.html", "r")]
             my_statement_dict = {}
             cleanup = []
@@ -372,8 +376,7 @@ class Main(object):
                 print(lst)
 
             insert_lst = "','".join(str(x) for x in lst)
-            insert_me = "insert into firstdata_statement(`{}`) VALUES('{}')".format(
-                headers, insert_lst)
+            insert_me = "insert into firstdata_statement(`{}`) VALUES('{}')".format(headers, insert_lst)
 
             moved_pdf = "done/{}{}.pdf".format(
                 str(my_statement_dict["proccessing_date"].date()), str(my_statement_dict["mid"]))
@@ -382,8 +385,7 @@ class Main(object):
                 os.makedirs("done")
             shutil.move(open_file, moved_pdf)
             if callConnection(self.confir, insert_me):
-                mn.get_ID([my_statement_dict["mid"]],
-                          my_statement_dict["proccessing_date"], moved_pdf)
+                mn.get_ID([my_statement_dict["mid"]], my_statement_dict["proccessing_date"], moved_pdf)
 
             else:
                 print("Failed to insert the value, I already exists {}".format(
@@ -405,8 +407,8 @@ class Main(object):
         """Setup options for chrome web browser"""
         mn = Main()
         mid_to_search = mn.get_mid_search()
-        #display = Display(visible=0, size=(800, 600))
-        #display.start()
+        display = Display(visible=0, size=(800, 600))
+        display.start()
 
         driver_builder = DriverBuilder()
         self.browser = driver_builder.get_driver(dwn, headless=False)
@@ -452,7 +454,7 @@ class Main(object):
                 continue
 
         browser.quit()
-        #display.close()
+        display.close()
 
 if __name__ == "__main__":
     import argparse
