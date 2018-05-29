@@ -332,6 +332,7 @@ class Main(object):
         hover = ActionChains(browser).move_to_element(element_to_hover_over)
         hover.perform()
 
+        time.sleep(5)
         try:
             browser.find_element_by_xpath("//*[text()='CSV']").click()
         except NoSuchElementException:
