@@ -36,6 +36,10 @@ class Main(object):
         from pyvirtualdisplay import Display
         from driver_builder import DriverBuilder
 
+        file = os.path.join(dwn,"Merchants.xlsx")
+        if os.path.exists(file):
+            os.remove(file)
+
         """Setup options for chrome web browser"""
         mn = Main()
         display = Display(visible=0, size=(800, 600))
@@ -72,8 +76,8 @@ class Main(object):
             display.close()
         except AttributeError:
             print("The Display is already closed?")
-            
-        os.chmod(os.path.join(dwn,"Merchants.xlsx"), 0o777)
+
+        os.chmod(file, 0o777)
 
 if __name__ == "__main__":
     import argparse
