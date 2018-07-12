@@ -72,8 +72,8 @@ class Main(object):
             display.close()
         except AttributeError:
             print("The Display is already closed?")
-
-        os.chmod(os.path.join(dwn,"Merchants.xlsx"), 777 | 777 | 777)
+            
+        os.chmod(os.path.join(dwn,"Merchants.xlsx"), 0o777)
 
 if __name__ == "__main__":
     import argparse
