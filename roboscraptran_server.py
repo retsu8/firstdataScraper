@@ -370,3 +370,5 @@ if __name__ == '__main__':
         mn.gettransactions()
     if args.parse:
         mn.parse_csv(args.server)
+    else:
+        parser.print_help()

@@ -432,7 +432,13 @@ class Main(object):
         for item in mid_to_search:
             # check my merchant
             print(item)
-            browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00").click()
+            for x in range(5):
+                try:
+                    browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00").click()
+                    break
+                except NoSuchElementException:
+                    time.sleep(2)
+
             time.sleep(2)
             browser.find_element_by_xpath("//*[text()='Merchant Number']").click()
             time.sleep(.5)
@@ -454,7 +460,10 @@ class Main(object):
                 continue
 
         browser.quit()
-        display.close()
+        try:
+            display.close()
+        except AttributeError:
+            print("The Display is already closed?")
 
 if __name__ == "__main__":
     import argparse
