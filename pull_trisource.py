@@ -5,8 +5,9 @@ import stat
 from selenium.common.exceptions import NoAlertPresentException, NoSuchElementException, UnexpectedAlertPresentException, StaleElementReferenceException
 
 direct = os.getcwd()
-dwn = os.path.join(direct, "excel")
-
+dwn = os.path.join("/tmp/", "excel")
+if not os.path.isdir(dwn):
+    os.makedirs(dwn)
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     if len(l) % n == 0:
