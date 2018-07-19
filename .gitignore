@@ -104,3 +104,6 @@ ENV/
 csv/
 done/
 pdf/
+
+# user added
+service_secret.json
