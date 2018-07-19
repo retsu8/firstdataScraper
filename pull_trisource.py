@@ -43,8 +43,8 @@ class Main(object):
 
         """Setup options for chrome web browser"""
         mn = Main()
-        display = Display(visible=0, size=(800, 600))
-        display.start()
+        #display = Display(visible=0, size=(800, 600))
+        #display.start()
 
         driver_builder = DriverBuilder()
         self.browser = driver_builder.get_driver(dwn, headless=False)
@@ -54,9 +54,10 @@ class Main(object):
 
         username = browser.find_element_by_id("username")
         password = browser.find_element_by_id("password")
-
-        username.send_keys("PaddockWill")
-        password.send_keys("M%6HY#Eqy$Lug4lx")
+        print(os.environ["tri_username"])
+        print(os.environ["tri_password"])
+        username.send_keys(os.environ["tri_username"])
+        password.send_keys(os.environ["tri_password"])
 
         browser.find_element_by_id("login").click()
         # go to chargebacks
@@ -74,7 +75,8 @@ class Main(object):
         time.sleep(5)
         browser.quit()
         try:
-            display.close()
+            #display.close()
+            "ds"
         except AttributeError:
             print("The Display is already closed?")
 
