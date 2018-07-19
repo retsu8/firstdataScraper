@@ -23,13 +23,13 @@ now = datetime.now()
 rolling_12_cycle = now - relativedelta(years=1)
 
 firstdata = {
-    "drivername": "mysql+pymysql",
-    "host": "merchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com",
-    "port": 3306,
-    "username": "merch_admin",
-    "password": "!GrKDb04gioSVQ*A2c$2",
+    'drivername': 'mysql+pymysql',
+    'host': os.environ["host"],
+    'port': os.environ["port"],
+    'username': os.environ["rds_user"],
+    'password': os.environ["rds_pass"],
     "database": "statementData",
-    "query": {"ssl_ca": "./rds-combined-ca-bundle.pem"}
+    "query": {"ssl_ca": "../rds-combined-ca-bundle.pem"}
 }
 
 card_dict = {
@@ -432,7 +432,13 @@ class Main(object):
         for item in mid_to_search:
             # check my merchant
             print(item)
-            browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00").click()
+            for x in range(5):
+                try:
+                    browser.find_element_by_id("ctl00_ContentPage_uxFiltering_uxReportFilter_ctl00").click()
+                    break
+                except NoSuchElementException:
+                    time.sleep(2)
+
             time.sleep(2)
             browser.find_element_by_xpath("//*[text()='Merchant Number']").click()
             time.sleep(.5)
@@ -454,7 +460,10 @@ class Main(object):
                 continue
 
         browser.quit()
-        display.close()
+        try:
+            display.close()
+        except AttributeError:
+            print("The Display is already closed?")
 
 if __name__ == "__main__":
     import argparse

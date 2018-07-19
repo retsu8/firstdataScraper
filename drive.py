@@ -8,7 +8,7 @@ from apiclient import http
 scopes = ['https://www.googleapis.com/auth/drive']
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name('service_secret.json', scopes)
-delegated_credentials = credentials.create_delegated('phpcli@even-blueprint-161416.iam.gserviceaccount.com')
+delegated_credentials = credentials.create_delegated(os.environ["service_email"])
 http_auth = credentials.authorize(Http())
 service = build('drive','v3',  credentials=credentials)
 

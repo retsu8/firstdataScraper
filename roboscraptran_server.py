@@ -28,13 +28,13 @@ direct = os.getcwd()
 dwn = os.path.join(direct, 'csv')
 
 firstdata = {
-    'drivername': 'mysql+pymysql',
-    'host': 'merchdb.c0v9kpl8n2zi.us-west-2.rds.amazonaws.com',
-    'port': 3306,
-    'username': 'merch_admin',
-    'password': '!GrKDb04gioSVQ*A2c$2',
+'drivername': 'mysql+pymysql',
+    'host': os.environ["host"],
+    'port': os.environ["port"],
+    'username': os.environ["rds_user"],
+    'password': os.environ["rds_pass"],
     'database': 'firstdata',
-    'query': {'local_infile': 1, 'ssl_ca': './rds-combined-ca-bundle.pem'},
+    'query': {'local_infile': 1, 'ssl_ca': '../rds-combined-ca-bundle.pem'},
 }
 
 card_dict = {
@@ -370,3 +370,5 @@ if __name__ == '__main__':
         mn.gettransactions()
     if args.parse:
         mn.parse_csv(args.server)
+    else:
+        parser.print_help()
